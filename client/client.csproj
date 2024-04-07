@@ -8,4 +8,16 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="img\default-profile-picture.png" />
+    <None Remove="img\post-picture.jpg" />
+    <None Remove="img\profile-picture.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\default-profile-picture.png" />
+    <Resource Include="img\post-picture.jpg" />
+    <Resource Include="img\profile-picture.jpg" />
+  </ItemGroup>
+
 </Project>
