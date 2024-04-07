@@ -1,15 +1,13 @@
 ﻿<Window x:Class="client.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:client"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Social App" Height="1070" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-<<<<<<< Updated upstream
-=======
         <!-- Vertical Navigation Bar -->
         <ListBox x:Name="NavigationListBox" Grid.Column="0" Margin="10">
             <ListBoxItem>Home</ListBoxItem>
@@ -128,6 +126,5 @@
 
             </StackPanel>
         </ScrollViewer>
->>>>>>> Stashed changes
     </Grid>
 </Window>

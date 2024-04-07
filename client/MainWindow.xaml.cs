@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,18 +11,6 @@ using System.Windows.Shapes;
 
 namespace client
 {
-<<<<<<< Updated upstream
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
-	{
-		public MainWindow()
-		{
-			InitializeComponent();
-		}
-	}
-=======
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -45,6 +33,7 @@ namespace client
             reportModal.Owner = this;
             reportModal.ShowDialog();
         }
+
         private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             if (postOptions1.SelectedItem != null && ((ComboBoxItem)postOptions1.SelectedItem).Name == "ReportMenuItem1")
@@ -62,5 +51,4 @@ namespace client
             }
         }
     }
->>>>>>> Stashed changes
 }
