@@ -1,13 +1,5 @@
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace client
 {
@@ -19,36 +11,60 @@ namespace client
         public MainWindow()
         {
             InitializeComponent();
+            // Initialize with View 1
+            ShowHome();
+            NavigationListBox.SelectionChanged += NavigationListBox_SelectionChanged;
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void NavigationListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            LoginPage loginPage = new LoginPage();
-            this.Content = loginPage;
-        }
-
-        private void ReportMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            ReportModalWindow reportModal = new ReportModalWindow();
-            reportModal.Owner = this;
-            reportModal.ShowDialog();
-        }
-
-        private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            if (postOptions1.SelectedItem != null && ((ComboBoxItem)postOptions1.SelectedItem).Name == "ReportMenuItem1")
+            if (NavigationListBox.SelectedItem != null)
             {
-                ReportModalWindow reportModal = new ReportModalWindow();
-                reportModal.ShowDialog();
-                 postOptions1.SelectedIndex = -1;
+                string selectedItem = ((ListBoxItem)NavigationListBox.SelectedItem).Content.ToString();
+                switch (selectedItem)
+                {
+                    case "Home":
+                        ShowHome();
+                        break;
+                    case "Notifications":
+                        // ShowView2();
+                        break;
+                    case "Messages":
+                        // ShowView3();
+                        break;
+                    case "Add Post":
+                        // ShowView4();
+                        break;
+                    case "Saved Posts":
+                        ShowSavedPosts();
+                        break;
+                    case "Archived Posts":
+                        ShowArchivedPosts();
+                        break;
+                    default:
+                        break;
+                }
             }
+        }
 
-            if (postOptions2.SelectedItem != null && ((ComboBoxItem)postOptions2.SelectedItem).Name == "ReportMenuItem2")
-            {
-                ReportModalWindow reportModal = new ReportModalWindow();
-                reportModal.ShowDialog();
-                postOptions2.SelectedIndex = -1;
-            }
+        // View 1
+        private void ShowHome()
+        {
+            contentFrame.Content = new HomePage();
+        }
+
+        // View 2
+        private void ShowSavedPosts()
+        {
+            // Replace LoginPage() with your desired page
+            contentFrame.Content = new SavedPostsPage();
+        }
+
+        // View 3
+        private void ShowArchivedPosts()
+        {
+            // Replace LoginPage() with your desired page
+            contentFrame.Content = new ArchivedPostsPage();
         }
     }
 }

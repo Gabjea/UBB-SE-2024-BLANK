@@ -24,5 +24,41 @@ namespace client
         {
             InitializeComponent();
         }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoginPage loginPage = new LoginPage();
+
+            Window window = Window.GetWindow(this);
+            if (window != null)
+            {
+                window.Content = loginPage;
+            }
+        }
+
+
+        private void ReportMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            ReportModalWindow reportModal = new ReportModalWindow();
+            reportModal.Owner = Window.GetWindow(this);
+            reportModal.ShowDialog();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (postOptions1.SelectedItem != null && ((ComboBoxItem)postOptions1.SelectedItem).Name == "ReportMenuItem1")
+            {
+                ReportModalWindow reportModal = new ReportModalWindow();
+                reportModal.ShowDialog();
+                postOptions1.SelectedIndex = -1;
+            }
+
+            if (postOptions2.SelectedItem != null && ((ComboBoxItem)postOptions2.SelectedItem).Name == "ReportMenuItem2")
+            {
+                ReportModalWindow reportModal = new ReportModalWindow();
+                reportModal.ShowDialog();
+                postOptions2.SelectedIndex = -1;
+            }
+        }
     }
 }
