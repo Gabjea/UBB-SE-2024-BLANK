@@ -9,25 +9,24 @@
         </Grid.ColumnDefinitions>
 
         <!-- Vertical Navigation Bar -->
-        <ListBox Grid.Column="0" Margin="10">
+        <ListBox x:Name="NavigationListBox" Grid.Column="0" Margin="10">
             <ListBoxItem>Home</ListBoxItem>
             <ListBoxItem>Notifications</ListBoxItem>
             <ListBoxItem>Messages</ListBoxItem>
             <ListBoxItem>Add Post</ListBoxItem>
-            <ListBoxItem>Save Post</ListBoxItem>
+            <ListBoxItem>Saved Posts</ListBoxItem>
             <ListBoxItem>Archived Posts</ListBoxItem>
         </ListBox>
 
         <!-- Main Content Area -->
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="10">
-
                 <!-- Default Profile Icon and Login -->
                 <DockPanel Width="Auto" Margin="0,0,0,30">
                     <TextBlock Text="Social App" FontSize="24" HorizontalAlignment="Center" Margin="250,0,0,0" VerticalAlignment="Top"/>
                     <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top">
                         <Image Source="img/default-profile-picture.png" Width="50" Height="50"/>
-                        <Button Content="Log in" Margin="0,-10,0,0"/>
+                        <Button x:Name="LoginButton" Content="Log in" Margin="0,-10,0,0" Click="LoginButton_Click"/>
                     </StackPanel>
                 </DockPanel>
 
@@ -67,12 +66,12 @@
 
 
                         <!-- Dropdown Menu -->
-                        <ComboBox Margin="627,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="19" Height="19">
+                        <ComboBox x:Name="postOptions1" Margin="627,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="19" Height="19" SelectionChanged="ComboBox_SelectionChanged">
                             <ComboBoxItem>Save</ComboBoxItem>
                             <ComboBoxItem>Archive</ComboBoxItem>
                             <ComboBoxItem>Edit</ComboBoxItem>
                             <ComboBoxItem>Delete</ComboBoxItem>
-                            <ComboBoxItem>Report</ComboBoxItem>
+                            <ComboBoxItem Name="ReportMenuItem1">Report</ComboBoxItem>
                         </ComboBox>
                     </Grid>
                 </Border>
@@ -115,12 +114,12 @@
 
 
                         <!-- Dropdown Menu -->
-                        <ComboBox Margin="627,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="19" Height="19">
+                        <ComboBox x:Name="postOptions2" Margin="627,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="19" Height="19" SelectionChanged="ComboBox_SelectionChanged">
                             <ComboBoxItem>Save</ComboBoxItem>
                             <ComboBoxItem>Archive</ComboBoxItem>
                             <ComboBoxItem>Edit</ComboBoxItem>
                             <ComboBoxItem>Delete</ComboBoxItem>
-                            <ComboBoxItem>Report</ComboBoxItem>
+                            <ComboBoxItem Name="ReportMenuItem2">Report</ComboBoxItem>
                         </ComboBox>
                     </Grid>
                 </Border>
