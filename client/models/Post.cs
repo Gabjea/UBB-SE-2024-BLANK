@@ -7,24 +7,28 @@ using System.Windows.Controls;
 
 namespace client.models
 {   
-    class Media { }
+    class Media {
+        public String path {  get; set; }
+        public Media(String _path) { path = _path; }
+
+    }
     class Post
     {
 
-        private Guid id { get; set; }
-        private String description { get; set; }
-        private Guid ownerUserID {  get; set; }
-        private List<Guid> mentionedUsers { get; set; }
-        private Guid commentedPostID {  get; set; }
-        private Guid originalPostID { get; set; }
-        private Media media { get; set; }
-        private int postType { get; set; }
-        private String locationID { get; set; }
-        private DateTime createdDate { get; set; }
+        public Guid id { get; set; }
+        public String? description { get; set; }
+        public Guid ownerUserID {  get; set; }
+        public List<Guid> mentionedUsers { get; set; }
+        public Guid? commentedPostID {  get; set; }
+        public Guid? originalPostID { get; set; }
+        public Media? media { get; set; }
+        public int postType { get; set; }
+        public String? locationID { get; set; }
+        public DateTime createdDate { get; set; }
 
-        public Post(String _description, Guid _onwerUserID, List<Guid> _mentionedUsers, Guid _commentedPostID, Guid _orignalPostID, Media _media, int _postType, String _locationID, DateTime _createdDate)
+        public Post(Guid _id,String? _description, Guid _onwerUserID, List<Guid> _mentionedUsers, Guid? _commentedPostID, Guid? _orignalPostID, Media? _media, int _postType, String? _locationID, DateTime _createdDate)
 		{
-            id = Guid.NewGuid();
+            id = _id;
             description = _description;
             ownerUserID = _onwerUserID;
             mentionedUsers = _mentionedUsers;

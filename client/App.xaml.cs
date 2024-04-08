@@ -1,4 +1,6 @@
 ﻿using client.models;
+using client.repositories;
+using client.services;
 using client.modules;
 using System.Configuration;
 using System.Data;
@@ -17,9 +19,6 @@ namespace client
 			MainWindow m = new MainWindow();
 			m.Show();
 
-			String path = "C:\\Users\\flori\\Desktop\\dog.png";
-
-			CompressionModule cm = new CompressionModule();
 		}
 	}
 
