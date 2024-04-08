@@ -22,8 +22,6 @@
 
   <ItemGroup>
     <Folder Include="modules\" />
-    <Folder Include="repositories\" />
-    <Folder Include="services\" />
   </ItemGroup>
 
 

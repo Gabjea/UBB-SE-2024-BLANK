@@ -32,7 +32,7 @@ public sealed class DatabaseConnection
 
 	public SqlConnection GetConnection()
 	{
-		// Check if connection is closed or disposed, then reopen or recreate it
+		
 		if (connection == null)
 		{
 			connection = new SqlConnection(builder.ConnectionString);
