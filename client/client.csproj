@@ -21,10 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="models\" />
-    <Folder Include="modules\" />
     <Folder Include="repositories\" />
     <Folder Include="services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
   </ItemGroup>
 
 </Project>
