@@ -39,7 +39,7 @@ namespace client.repositories
 					command.Parameters.AddWithValue("@description", post.description);
 					command.Parameters.AddWithValue("@commented_post_id", post.commentedPostID);
 					command.Parameters.AddWithValue("@original_post_id", post.originalPostID);
-					command.Parameters.AddWithValue("@media_path", post.media.path);
+					command.Parameters.AddWithValue("@media_path", post.media?.FilePath);
 					command.Parameters.AddWithValue("@post_type", post.postType);
 					command.Parameters.AddWithValue("@location_id", post.locationID);
 					command.Parameters.AddWithValue("@created_date", post.createdDate);
@@ -218,7 +218,7 @@ namespace client.repositories
 						int post_type = reader.GetInt16(6);
 						String? location_id  = reader.GetString(7);
 						DateTime created_date = reader.GetDateTime(8);
-						Post post = new Post(post_id,description,owner_user_id,new List<Guid>(),commented_post_id,original_post_id,new Media(media_path),post_type,location_id,created_date);
+						Post post = new Post(post_id,description,owner_user_id,new List<Guid>(),commented_post_id,original_post_id,new Media(media_path,".jpg"),post_type,location_id,created_date);
 						
 						posts.Add(post);
 					}
@@ -252,7 +252,7 @@ namespace client.repositories
 						int post_type = reader.GetInt16(6);
 						String? location_id = reader.GetString(7);
 						DateTime created_date = reader.GetDateTime(8);
-						Post post = new Post(post_id, description, owner_user_id, new List<Guid>(), commented_post_id, original_post_id, new Media(media_path), post_type, location_id, created_date);
+						Post post = new Post(post_id, description, owner_user_id, new List<Guid>(), commented_post_id, original_post_id, new Media(media_path, ".jpg"), post_type, location_id, created_date);
 
 						posts.Add(post);
 					}
