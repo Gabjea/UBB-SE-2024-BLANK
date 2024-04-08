@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "client": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "GOOGLE_PLACES_API_KEY": "AIzaSyB0sAUSRfZHPS6jKzyjPDaeakE8IIxIom4"
+      }
+    }
+  }
+}
