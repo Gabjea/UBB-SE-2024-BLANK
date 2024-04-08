@@ -8,7 +8,13 @@ namespace client
 	/// Interaction logic for App.xaml
 	/// </summary>
 	public partial class App : Application
+
 	{
+		App()
+		{
+			MainWindow m = new MainWindow();
+			m.Show();
+		}
 	}
 
 }
