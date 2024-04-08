@@ -13,48 +13,58 @@ namespace client.modules
 {
     class CompressionModule
     {
-        private int compressQuality = 60;
+        private long compressQuality = 60;
+        private long originalQuality = 100;
+        private String? tempPath;
 
         private void compressImage(Media photo)
         {
-            Image compressedImage = changeQuality(photo.FilePath, compressQuality);
-            compressedImage.Save(photo.FilePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+            varyQualityLevel(photo, compressQuality);
         }
 
         private void decompressImage(Media photo)
         {
-            Image compressedImage = changeQuality(photo.FilePath, 100);
-            compressedImage.Save(photo.FilePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+            varyQualityLevel(photo, originalQuality);
         }
 
-        private Image changeQuality(string fileName, int newQuality)
+        private void varyQualityLevel(Media photo, long quality)
         {
-            using (Image image = Image.FromFile(fileName))
-            using (Image memImage = new Bitmap(image))
+            // Get a bitmap. The using statement ensures objects  
+            // are automatically disposed from memory after use.  
+            using (Bitmap bmp1 = new Bitmap(photo.FilePath))
             {
-                ImageCodecInfo myImageCodecInfo;
-                System.Drawing.Imaging.Encoder myEncoder;
-                EncoderParameter myEncoderParameter;
-                EncoderParameters myEncoderParameters;
-                myImageCodecInfo = GetEncoderInfo("image/jpeg");
-                myEncoder = System.Drawing.Imaging.Encoder.Quality;
-                myEncoderParameters = new EncoderParameters(1);
-                myEncoderParameter = new EncoderParameter(myEncoder, newQuality);
+                ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
+
+                // Create an Encoder object based on the GUID  
+                // for the Quality parameter category.  
+                System.Drawing.Imaging.Encoder myEncoder =
+                    System.Drawing.Imaging.Encoder.Quality;
+
+
+                EncoderParameters myEncoderParameters = new EncoderParameters(1);
+
+                EncoderParameter myEncoderParameter = new EncoderParameter(myEncoder, quality);
                 myEncoderParameters.Param[0] = myEncoderParameter;
 
-                MemoryStream memStream = new MemoryStream();
-                memImage.Save(memStream, myImageCodecInfo, myEncoderParameters);
-                Image newImage = Image.FromStream(memStream);
-                ImageAttributes imageAttributes = new ImageAttributes();
-                using (Graphics g = Graphics.FromImage(newImage))
-                {
-                    g.InterpolationMode =
-                      System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;  //**
-                    g.DrawImage(newImage, new Rectangle(System.Drawing.Point.Empty, newImage.Size), 0, 0,
-                      newImage.Width, newImage.Height, GraphicsUnit.Pixel, imageAttributes);
-                }
-                return newImage;
+                this.tempPath = Path.GetTempPath() + @"\" + Guid.NewGuid().ToString() + ".jpg";
+                bmp1.Save(tempPath, jpgEncoder, myEncoderParameters);
             }
+            File.Delete(photo.FilePath);
+            File.Copy(tempPath, photo.FilePath);
+            File.Delete(tempPath);
+        }
+
+        private ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageEncoders();
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
         }
 
         private static ImageCodecInfo GetEncoderInfo(String mimeType)

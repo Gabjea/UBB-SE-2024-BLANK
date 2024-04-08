@@ -20,7 +20,6 @@ namespace client
 			String path = "C:\\Users\\flori\\Desktop\\dog.png";
 
 			CompressionModule cm = new CompressionModule();
-			cm.compressFile(new PhotoMedia(path));
 		}
 	}
 
