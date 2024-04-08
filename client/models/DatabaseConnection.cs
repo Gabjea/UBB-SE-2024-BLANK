@@ -20,7 +20,6 @@ public sealed class DatabaseConnection
 			$" Password= {Environment.GetEnvironmentVariable("DB_PASS")};Initial Catalog = {Environment.GetEnvironmentVariable("DB_SCHEMA")};TrustServerCertificate=True";
 		// Initialize your database connection here
 		connection = new SqlConnection(builder.ConnectionString);
-		MessageBox.Show(builder.ConnectionString);
 	}
 
 	public static DatabaseConnection Instance
@@ -34,15 +33,11 @@ public sealed class DatabaseConnection
 	public SqlConnection GetConnection()
 	{
 		// Check if connection is closed or disposed, then reopen or recreate it
-		if (connection == null || connection.State == System.Data.ConnectionState.Closed)
+		if (connection == null)
 		{
 			connection = new SqlConnection(builder.ConnectionString);
 		}
-		else if (connection.State == System.Data.ConnectionState.Broken)
-		{
-			connection.Close();
-			connection.Open();
-		}
+		
 
 		return connection;
 	}
