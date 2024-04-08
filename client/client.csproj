@@ -24,7 +24,6 @@
     <Folder Include="modules\" />
   </ItemGroup>
 
-
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
    </ItemGroup>
@@ -32,7 +31,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
   </ItemGroup>
-
+   
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -46,8 +45,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-
   </ItemGroup>
+
    
 
 </Project>
