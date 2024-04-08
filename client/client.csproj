@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="models\" />
     <Folder Include="modules\" />
     <Folder Include="repositories\" />
     <Folder Include="services\" />
