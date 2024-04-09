@@ -15,7 +15,6 @@ namespace client.models
 
             String newFilePath = workingDirectory + @"\" + myuuidAsString + fileExtension;
             File.Copy(filePath, newFilePath);
-            MessageBox.Show(newFilePath);
 
             this.FilePath = newFilePath;
         }

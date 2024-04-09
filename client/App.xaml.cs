@@ -18,7 +18,6 @@ namespace client
 		{
 			MainWindow m = new MainWindow();
 			m.Show();
-
 		}
 	}
 
