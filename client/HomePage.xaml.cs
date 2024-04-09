@@ -60,5 +60,24 @@ namespace client
                 postOptions2.SelectedIndex = -1;
             }
         }
+
+        private void shareButton1_Click(object sender, RoutedEventArgs e)
+        {
+            SharePostWindow sharePost = new SharePostWindow();
+            sharePost.Owner = Window.GetWindow(this);
+            sharePost.ShowDialog();
+        }
+
+        private void openPostButton1_Click(object sender, RoutedEventArgs e)
+        {
+            PostWindow post = new PostWindow();
+            post.Owner = Window.GetWindow(this);
+            post.ShowDialog();
+        }
+
+        private void openPostButton2_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
