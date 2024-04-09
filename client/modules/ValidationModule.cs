@@ -1,12 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
-
 
 namespace client.modules
 {
@@ -40,12 +33,6 @@ namespace client.modules
                 }
             }
             conn.Close();
-        }
-
-
-        public String[] getAllowedFileExtensions()
-        {
-            return allowedFileExtensions;
         }
 
         public void ValidateFile(String filePath)
