@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Windows.Input;
 using System.Diagnostics.Eventing.Reader;
+using client.modules;
 
 namespace client.repositories
 {
@@ -22,10 +23,13 @@ namespace client.repositories
         private String _searchLocationsURL;
         private String _getPlaceDetailsURL;
         private readonly HttpClient _httpClient;
+        private readonly ConfigurationModule _configuration;
 
         public LocationRepository()
         {
-            _googlePlacesAPIKey = Environment.GetEnvironmentVariable("GOOGLE_PLACES_API_KEY");
+            _configuration = new ConfigurationModule();
+
+            _googlePlacesAPIKey = _configuration.getGOOGLE_PLACES_API_KEY();
             _searchLocationsURL =
                 "https://maps.googleapis.com/maps/api/place/textsearch/json?key="
                 + _googlePlacesAPIKey
