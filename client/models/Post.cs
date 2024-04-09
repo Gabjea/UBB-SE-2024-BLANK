@@ -7,11 +7,7 @@ using System.Windows.Controls;
 
 namespace client.models
 {   
-    class Media {
-        public String path {  get; set; }
-        public Media(String _path) { path = _path; }
-
-    }
+   
     class Post
     {
 
