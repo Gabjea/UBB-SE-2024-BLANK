@@ -267,8 +267,9 @@ namespace client.repositories
 		public List<Post> getAllPostsFromLocation(String locationID) {
 			string query = "SELECT * FROM posts WHERE location_id = @location_id";
 			List<Post> posts = new List<Post>();
+            conn.Open();
 
-			using (SqlCommand command = new SqlCommand(query, conn))
+            using (SqlCommand command = new SqlCommand(query, conn))
 			{
 
 				command.Parameters.AddWithValue("@location_id", locationID);
