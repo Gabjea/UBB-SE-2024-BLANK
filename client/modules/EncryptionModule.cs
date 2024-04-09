@@ -3,26 +3,28 @@ using System.IO;
 using System;
 using System.Security.Cryptography;
 using System.Windows;
+using System.Text;
+using client.modules;
 
 namespace client.modules
 {
     class EncryptionModule
     {
 
-        private byte[] encryptionKey; // TODO get from settings Module
+        private byte[] encryptionKey;
+
+        private readonly ConfigurationModule configurationModule;
         public EncryptionModule() 
         {
-            encryptionKey = getEncryptionKey();
+            this.configurationModule = new ConfigurationModule();
+            this.encryptionKey = getEncryptionKey();
         }
 
         private byte[] getEncryptionKey()
         {
-            //TODO to get from Settings Module
-            using (var aes = Aes.Create())
-            {
-                aes.GenerateKey();
-                return aes.Key;
-            }
+            /*String recievedEncryptionKey = "80-D0-C4-C7-7D-2A-29-0F-2C-0D-D8-2C-D5-AD-65-38-E4-26-35-76-7C-09-0D-32-91-62-B8-9E-D7-31-5A-95";*/
+            String recievedEncryptionKey = configurationModule.getENCRYPTION_KEY().Replace("-", "");
+            return Encoding.ASCII.GetBytes(recievedEncryptionKey);
         }
 
         private void fileEncryptAlgorithm(string inputPath, string outputPath, byte[] key)
