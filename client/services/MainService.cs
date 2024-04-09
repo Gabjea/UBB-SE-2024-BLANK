@@ -13,6 +13,8 @@ namespace client.services
         public PostSavedService PostSavedService { get; }
 
         public PostsService PostsService { get; }
+
+        public UserService UserService { get; }
         public MainService()
         {
             PostArchivedRepository postArchivedRepository = new PostArchivedRepository();
@@ -20,12 +22,14 @@ namespace client.services
             PostReportedRepository postReportedRepository = new PostReportedRepository();
             LocationRepository locationRepository = new LocationRepository();
             PostsRepository postsRepository = new PostsRepository();
+            UserRepository userRepository = new UserRepository();
 
             LocationService = new LocationService(locationRepository);
             PostArchivedService = new PostArchivedService(postArchivedRepository);
             PostReportedService = new PostReportedService(postReportedRepository);
             PostSavedService = new PostSavedService(postSavedRepository);
             PostsService = new PostsService(postsRepository);
+            UserService = new UserService(userRepository);
         }
     }
 }
