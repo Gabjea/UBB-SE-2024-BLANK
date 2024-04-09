@@ -19,8 +19,11 @@ namespace client
 
 			String path = "C:\\Users\\flori\\Desktop\\dog.png";
 
-			CompressionModule cm = new CompressionModule();
-			cm.compressFile(new PhotoMedia(path));
+			EncryptionModule em = new EncryptionModule();
+			Media encrypted = em.encryptFile(new PhotoMedia(path));
+
+			Media decrypted = em.decryptFile(encrypted);
+			MessageBox.Show(decrypted.FilePath);
 		}
 	}
 
