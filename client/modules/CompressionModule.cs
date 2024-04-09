@@ -23,18 +23,13 @@ namespace client.modules
         }
 
         private void varyQualityLevel(Media photo, long quality)
-        {
-            // Get a bitmap. The using statement ensures objects  
-            // are automatically disposed from memory after use.  
+        { 
             using (Bitmap bmp1 = new Bitmap(photo.FilePath))
             {
                 ImageCodecInfo jpgEncoder = GetEncoder(ImageFormat.Jpeg);
-
-                // Create an Encoder object based on the GUID  
-                // for the Quality parameter category.  
+  
                 System.Drawing.Imaging.Encoder myEncoder =
                     System.Drawing.Imaging.Encoder.Quality;
-
 
                 EncoderParameters myEncoderParameters = new EncoderParameters(1);
 
@@ -78,11 +73,6 @@ namespace client.modules
             if (mediaFile.GetType() == typeof(PhotoMedia))
             {
                 compressImage(mediaFile);
-                MessageBox.Show("Photo compressed succesfully!");
-            }
-            else
-            {
-                MessageBox.Show("ToDO");
             }
         }
 
@@ -91,11 +81,6 @@ namespace client.modules
             if (mediaFile.GetType() == typeof(PhotoMedia))
             {
                 decompressImage(mediaFile);
-                MessageBox.Show("Photo decompressed succesfully!");
-            }
-            else
-            {
-                MessageBox.Show("ToDO");
             }
         }
     }
