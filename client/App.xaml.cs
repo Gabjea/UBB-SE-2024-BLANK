@@ -1,4 +1,6 @@
 ﻿using client.models;
+using client.repositories;
+using client.services;
 using client.modules;
 using System.Configuration;
 using System.Data;
@@ -16,14 +18,6 @@ namespace client
 		{
 			MainWindow m = new MainWindow();
 			m.Show();
-
-			String path = "C:\\Users\\flori\\Desktop\\dog.png";
-
-			EncryptionModule em = new EncryptionModule();
-			Media encrypted = em.encryptFile(new PhotoMedia(path));
-
-			Media decrypted = em.decryptFile(encrypted);
-			MessageBox.Show(decrypted.FilePath);
 		}
 	}
 
