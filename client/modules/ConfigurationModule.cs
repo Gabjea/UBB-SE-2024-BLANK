@@ -7,6 +7,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using client.models;
+using System.Windows;
 
 namespace client.modules
 {
@@ -16,11 +17,13 @@ namespace client.modules
         private List<string> allowedFileExtensions;
         private int maxFileSize;
         private string GOOGLE_PLACES_API_KEY;
+        private string ENCRYPTION_KEY;
 
-        private string DB_IP= Environment.GetEnvironmentVariable("DB_IP");
-        private string DB_USER=Environment.GetEnvironmentVariable("DB_USER");
-        private string DB_PASS= Environment.GetEnvironmentVariable("DB_PASS");
-        private string DB_SCHEMA=Environment.GetEnvironmentVariable("DB_SCHEMA");
+        private string DB_IP = Environment.GetEnvironmentVariable("DB_IP");
+        private string DB_USER = Environment.GetEnvironmentVariable("DB_USER");
+        private string DB_PASS = Environment.GetEnvironmentVariable("DB_PASS");
+        private string DB_SCHEMA = Environment.GetEnvironmentVariable("DB_SCHEMA");
+
 
 
         public List<string> getAllowedFileExtensions()
@@ -38,42 +41,42 @@ namespace client.modules
             return this.GOOGLE_PLACES_API_KEY;
         }
 
+        public string getENCRYPTION_KEY()
+        {
+            return this.ENCRYPTION_KEY;
+        }
+
 
         public ConfigurationModule()
+        {
+            FetchConfigurationValue();
+        }
+
+        private void FetchConfigurationValue()
         {
             DatabaseConnection dbInstance;
             SqlConnection conn;
             dbInstance = DatabaseConnection.Instance;
             conn = dbInstance.GetConnection();
-            try
-            {
-                conn.Open();
-                allowedFileExtensions = FetchConfigurationValue(conn, "allowedFileExtensions").Split(',').ToList();
-                maxFileSize = int.Parse(FetchConfigurationValue(conn, "maxFileSize"));
-                GOOGLE_PLACES_API_KEY = FetchConfigurationValue(conn, "GOOGLE_PLACES_API_KEY");
-            }
-            catch (Exception ex)
-            {
-                //log error
-            }
-        }
-
-        private string FetchConfigurationValue(SqlConnection conn, string settingName)
-        {
-            string query = $"SELECT TOP 1 ValueColumn FROM configuration WHERE KeyColumn = @SettingName";
+            conn.Open();
+            string query = "SELECT allowedFileExtensions, maxFileSize, GOOGLE_PLACES_API_KEY, ENCRYPTION_KEY FROM configurations";
             using (SqlCommand cmd = new SqlCommand(query, conn))
             {
-                object result = cmd.ExecuteScalar();
-                if (result != null)
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    return result.ToString();
-                }
-                else
-                {
-                    throw new Exception($"Setting '{settingName}' not found.");
+                    if (reader.Read())
+                    {
+                        allowedFileExtensions = reader.GetString(0).Split(',').ToList();
+                        maxFileSize = reader.GetInt32(1);
+                        GOOGLE_PLACES_API_KEY = reader.GetString(2);
+                        ENCRYPTION_KEY = reader.GetString(3);
+                    }
+                    else
+                    {
+                        MessageBox.Show("No configuration found.");
+                    }
                 }
             }
         }
-
     }
 }
