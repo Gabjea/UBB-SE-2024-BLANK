@@ -1,19 +1,31 @@
-﻿using System;
+﻿using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using Microsoft.Extensions.Logging;
-using Serilog;
+using System.Data;
 
 namespace client.modules
 {
     internal class LoggingModule
     {
-        private static readonly string logFilePath = Environment.GetEnvironmentVariable("log_path");
         private static readonly ILoggerFactory _loggerFactory;
 
         static LoggingModule()
         {
-            Log.Logger = new LoggerConfiguration().WriteTo.File(logFilePath, outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level:u3}] {Message:lj}{NewLine}{Exception}").CreateLogger();
+            DatabaseConnection dbInstance = DatabaseConnection.Instance;
+            var conn = dbInstance.GetConnection();
 
-            _loggerFactory = LoggerFactory.Create(builder =>{builder.AddSerilog(dispose: true);});
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.MSSqlServer(
+                    connectionString: conn.ConnectionString,
+                    sinkOptions: new MSSqlServerSinkOptions
+                    {
+                        TableName = "logs",
+                        AutoCreateSqlTable = true,
+                    }
+                )
+                .CreateLogger();
+
+            _loggerFactory = LoggerFactory.Create(builder => builder.AddSerilog(dispose: true));
         }
 
         public static ILogger<T> CreateLogger<T>() => _loggerFactory.CreateLogger<T>();
