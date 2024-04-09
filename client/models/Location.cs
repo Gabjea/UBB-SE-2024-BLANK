@@ -8,12 +8,12 @@ namespace client.models
 {
     internal class Location
     {
-        private string id;
-        private string name;
-        private double latitude;
-        private double longitude;
+        private String id;
+        private String name;
+        private Double latitude;
+        private Double longitude;
 
-        public Location(string id, String name, double latitude, double longitude)
+        public Location(String id, String name, Double latitude, Double longitude)
         {
             this.id = id;
             this.name = name;
@@ -21,23 +21,23 @@ namespace client.models
             this.longitude = longitude;
         }
 
-        public string Id
+        public String Id
         {
             get { return id; }
             set { id = value; }
         }
 
-        public string Name
+        public String Name
         {
             get { return name; }
             set { name = value; }
         }
-        public double Latitude
+        public Double Latitude
         {
             get { return latitude; }
             set { latitude = value; }
         }
-        public double Longitude
+        public Double Longitude
         {
             get { return longitude; }
             set { longitude = value; }

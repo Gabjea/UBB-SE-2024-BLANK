@@ -18,43 +18,9 @@ namespace client.services
             _locationRepository = locationRepository;
         }
 
-        // Returns the Location of one post
-        public async Task<Location> GetPostLocation(string postId)
-        {
-            Dictionary<string, string> allPostsLocations = _locationRepository.GetAllPostsLocations();
-            string locationId;
-
-            if (allPostsLocations.ContainsKey(postId))
-            {
-                locationId = allPostsLocations[postId];
-            }
-            else
-            {
-                return null;
-            }
-
-            // Create Location object by requesting the API
-            return await _locationRepository.GetLocationDetails(locationId);
-        }
-
-        public async Task<Location> GetLocationById(string locationId)
+        public async Task<Location> GetLocationById(String locationId)
         {
             return await _locationRepository.GetLocationDetails(locationId);
-        }
-
-        public void AddPostLocation(string postId, string locationId)
-        {
-            _locationRepository.AddPostLocation(postId, locationId);
-        }
-
-        public void RemovePostLocation(string postId)
-        {
-            _locationRepository.RemovePostLocation(postId);
-        }
-
-        public void UpdatePostLocation(string postId, string locationId)
-        {
-            _locationRepository.UpdatePostLocation(postId, locationId);
         }
     }
 }
