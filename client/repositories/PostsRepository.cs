@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
@@ -15,14 +16,12 @@ namespace client.repositories
 {
 	internal class PostsRepository
 	{	
-		private PostsService service;
 
 		private DatabaseConnection dbInstance;
 		private SqlConnection conn;
-		public PostsRepository(PostsService _service) {
+		public PostsRepository() {
 			dbInstance = DatabaseConnection.Instance;
 			conn = dbInstance.GetConnection();
-			service = _service;
 		}
 
 		public bool addPostToDB(Post post)
@@ -208,19 +207,58 @@ namespace client.repositories
 				{
 					while (reader.Read())
 					{
-						
+
 						Guid post_id = Guid.Parse(reader.GetString(0));
 						Guid owner_user_id = Guid.Parse(reader.GetString(1));
-						String? description = reader.GetString(2);
-						Guid? commented_post_id = Guid.Parse(reader.GetString(3));
-						Guid? original_post_id = Guid.Parse(reader.GetString(4));
-						String? media_path = reader.GetString(5);
+						String? description = reader.IsDBNull(2) ? null : reader.GetString(2);
+						Guid? commented_post_id = reader.IsDBNull(3) ? (Guid?)null : Guid.Parse(reader.GetString(3));
+						Guid? original_post_id = reader.IsDBNull(4) ? (Guid?)null : Guid.Parse(reader.GetString(4));
+						String? media_path = reader.IsDBNull(5) ? null : reader.GetString(5);
 						int post_type = reader.GetInt16(6);
-						String? location_id  = reader.GetString(7);
+						String? location_id = reader.IsDBNull(7) ? null : reader.GetString(7);
 						DateTime created_date = reader.GetDateTime(8);
-						Post post = new Post(post_id,description,owner_user_id,new List<Guid>(),commented_post_id,original_post_id,new Media(media_path,".jpg"),post_type,location_id,created_date);
+
+
+
+
+
+						List<Guid> metionedUsers= new List<Guid>();
+						String getMentionedUsers = "SELECT user_id FROM mentions WHERE post_id = @post_id";
+						using (SqlCommand command2 = new SqlCommand(getMentionedUsers, conn))
+						{
+							
 						
-						posts.Add(post);
+							command2.Parameters.AddWithValue("@post_id", post_id);
+							using (SqlDataReader reader2 = command2.ExecuteReader())
+							{
+								while (reader2.Read())
+								{
+									metionedUsers.Add(Guid.Parse(reader2.GetString(0)));
+								}
+							}
+						}
+
+
+						Post post;
+
+						if(post_type == 0)
+						{
+							post = new Post(post_id, description, owner_user_id, metionedUsers, commented_post_id, original_post_id, null, post_type, location_id, created_date);
+							posts.Add(post);
+						}
+
+						else if (post_type == 1)
+						{
+
+							post = new Post(post_id,description,owner_user_id,metionedUsers,commented_post_id,original_post_id,new PhotoMedia(media_path),post_type,location_id,created_date);
+							posts.Add(post);
+						}
+						else if(post_type== 2){
+							post = new Post(post_id, description, owner_user_id, metionedUsers, commented_post_id, original_post_id, new VideoMedia(media_path), post_type, location_id, created_date);
+							posts.Add(post);
+						}	
+
+						
 					}
 				}
 			}
