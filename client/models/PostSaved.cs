@@ -8,24 +8,24 @@ namespace client.models
 {
     internal class PostSaved
     {
-        public Guid SavedPostId { get;set; }
-        public Guid SaverId { get;set; }
-        public Guid PostId { get;set; }
+        public Guid save_id { get;set; }
+        public Guid post_id { get;set; }
+        public Guid user_id { get;set; }
 
-        public PostSaved(Guid savedPostId, Guid saveUserId, Guid postId)
+        public PostSaved(Guid savedPostId,  Guid postId ,Guid saveUserId)
         {
-            this.SavedPostId = savedPostId;
-            this.SaverId = saveUserId;
-            this.PostId = postId;
+            this.save_id = savedPostId;
+            this.post_id = saveUserId;
+            this.user_id = postId;
         }
 
        
-        public override string ToString()
+        public override String ToString()
         {
             return "PostSaved{" +
-                    "savedPostId=" + SavedPostId +
-                    ", saveUserId=" + SaverId +
-                    ", postId=" + PostId +
+                    "savedPostId=" + save_id +
+                    ", saveUserId=" + post_id +
+                    ", postId=" + user_id +
                     '}';
         }
     }

@@ -27,15 +27,15 @@ namespace client.repositories
 
         public bool addPostSavedtoDB(PostSaved postSaved)
         {
-            string query = "INSERT INTO post_saved (post_id, owner_user_id, description, commented_post_id, original_post_id, media_path, post_type, location_id, created_date) VALUES (@post_id, @owner_user_id, @description, @commented_post_id, @original_post_id , @media_path, @post_type, @location_id, @created_date)";
+            string query = "INSERT INTO post_saves (save_id,post_id,user_id) Values (@save_id,@post_id,@user_id)";
 
             conn.Open();
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
-                command.Parameters.AddWithValue("@owner_user_id", postSaved.PostId);
+                command.Parameters.AddWithValue("@save_id", postSaved.PostId);
                 command.Parameters.AddWithValue("@post_id", postSaved.SavedPostId);
-                command.Parameters.AddWithValue("@commented_post_id", postSaved.SaverId);
+                command.Parameters.AddWithValue("@user_id", postSaved.SaverId);
                 
 
                 try
@@ -54,7 +54,7 @@ namespace client.repositories
 
         public bool removePostSavedFromDB(PostSaved postSaved)
         {
-            string query = "DELETE FROM post_saved WHERE post_id = @post_id";
+            string query = "DELETE FROM post_saves WHERE post_id = @post_id";
 
             conn.Open();
             using (SqlCommand command = new SqlCommand(query, conn))
@@ -79,7 +79,7 @@ namespace client.repositories
        public List<PostSaved> getAll()
         {
             List<PostSaved> postSavedList = new List<PostSaved>();
-            string query = "SELECT * FROM post_saved";
+            string query = "SELECT * FROM post_saves";
 
             conn.Open();
 
@@ -90,9 +90,9 @@ namespace client.repositories
                     while (reader.Read())
                     {
                         PostSaved postSaved = new PostSaved(
-                                                       reader.GetGuid(0),
-                                                                                  reader.GetGuid(1),
-                                                                                                             reader.GetGuid(2)
+                                                       Guid.Parse(reader.GetString(0)),
+                                                                                  Guid.Parse(reader.GetString(1)),
+                                                                                                             Guid.Parse(reader.GetString(2))
                                                                                                                                     );
                         postSavedList.Add(postSaved);
                     }

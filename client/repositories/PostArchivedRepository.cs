@@ -27,7 +27,7 @@ namespace client.repositories
 
         public bool addPostArchivedToDB(PostArchived postArchived)
         {
-            string query = "INSERT INTO post_archived (post_id, owner_user_id, description, commented_post_id, original_post_id, media_path, post_type, location_id, created_date) VALUES (@post_id, @owner_user_id, @description, @commented_post_id, @original_post_id , @media_path, @post_type, @location_id, @created_date)";
+            string query = "INSERT INTO post_archive (owner_user_id,post_id) Values (@owner_user_id,@post_id)";
 
             conn.Open();
             using (SqlCommand command = new SqlCommand(query, conn))
@@ -54,7 +54,7 @@ namespace client.repositories
 
         public bool removePostArchivedFromDB(PostArchived postArchived)
         {
-            string query = "DELETE FROM post_archived WHERE post_id = @post_id";
+            string query = "DELETE FROM post_archive WHERE post_id = @post_id";
 
             conn.Open();
             using (SqlCommand command = new SqlCommand(query, conn))
@@ -80,7 +80,7 @@ namespace client.repositories
         {
             List<PostArchived> postArchivedList = new List<PostArchived>();
 
-            string query = "SELECT * FROM post_archived";
+            string query = "SELECT * FROM post_archive";
 
             conn.Open();
             using (SqlCommand command = new SqlCommand(query, conn))
@@ -89,7 +89,7 @@ namespace client.repositories
                 {
                     while (reader.Read())
                     {
-                        PostArchived postArchived = new PostArchived(reader.GetGuid(0), reader.GetGuid(1));
+                        PostArchived postArchived = new PostArchived(Guid.Parse(reader.GetString(0)), Guid.Parse(reader.GetString(1)));
                         postArchivedList.Add(postArchived);
                     }
                 }

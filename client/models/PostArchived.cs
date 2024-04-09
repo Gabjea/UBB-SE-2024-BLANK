@@ -18,7 +18,7 @@ namespace client.models
         }
 
        
-        public override string ToString()
+        public override String ToString()
         {
             return "PostArchived{" +
                     "archivedPostId=" + ArchivedPostId +
