@@ -19,11 +19,10 @@ namespace client.repositories
         private SqlConnection conn;
 
 
-        public PostReportedRepository(PostReportedService _service)
+        public PostReportedRepository()
         {
             dbInstance = DatabaseConnection.Instance;
             conn = dbInstance.GetConnection();
-           
         }
 
         public bool addReportedPostToDB(PostReported postReported)
