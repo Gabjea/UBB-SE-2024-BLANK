@@ -247,13 +247,14 @@ namespace client.repositories
 							posts.Add(post);
 						}
 
-						else if (post_type == 1)
+						else if (post_type == 1 && media_path != null)
 						{
 
 							post = new Post(post_id,description,owner_user_id,metionedUsers,commented_post_id,original_post_id,new PhotoMedia(media_path),post_type,location_id,created_date);
 							posts.Add(post);
 						}
-						else if(post_type== 2){
+						else if(post_type== 2 && media_path != null)
+						{
 							post = new Post(post_id, description, owner_user_id, metionedUsers, commented_post_id, original_post_id, new VideoMedia(media_path), post_type, location_id, created_date);
 							posts.Add(post);
 						}	
@@ -290,9 +291,42 @@ namespace client.repositories
 						int post_type = reader.GetInt16(6);
 						String? location_id = reader.GetString(7);
 						DateTime created_date = reader.GetDateTime(8);
-						Post post = new Post(post_id, description, owner_user_id, new List<Guid>(), commented_post_id, original_post_id, new Media(media_path, ".jpg"), post_type, location_id, created_date);
 
-						posts.Add(post);
+						List<Guid> metionedUsers = new List<Guid>();
+						String getMentionedUsers = "SELECT user_id FROM mentions WHERE post_id = @post_id";
+						using (SqlCommand command2 = new SqlCommand(getMentionedUsers, conn))
+						{
+
+
+							command2.Parameters.AddWithValue("@post_id", post_id);
+							using (SqlDataReader reader2 = command2.ExecuteReader())
+							{
+								while (reader2.Read())
+								{
+									metionedUsers.Add(Guid.Parse(reader2.GetString(0)));
+								}
+							}
+						}
+
+						Post post;
+
+						if (post_type == 0)
+						{
+							post = new Post(post_id, description, owner_user_id, metionedUsers, commented_post_id, original_post_id, null, post_type, location_id, created_date);
+							posts.Add(post);
+						}
+
+						else if (post_type == 1 && media_path != null)
+						{
+
+							post = new Post(post_id, description, owner_user_id, metionedUsers, commented_post_id, original_post_id, new PhotoMedia(media_path), post_type, location_id, created_date);
+							posts.Add(post);
+						}
+						else if (post_type == 2 && media_path != null)
+						{
+							post = new Post(post_id, description, owner_user_id, metionedUsers, commented_post_id, original_post_id, new VideoMedia(media_path), post_type, location_id, created_date);
+							posts.Add(post);
+						}
 					}
 				}
 			}

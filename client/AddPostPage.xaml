@@ -10,45 +10,51 @@
 
     <Grid>
         <!-- Main Content Area -->
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,-339">
-            <StackPanel Margin="10">
-                <DockPanel Width="Auto" Margin="0,0,0,30">
-                    <TextBlock Text="Social App" FontSize="24" HorizontalAlignment="Center" Margin="-25,0,0,0" VerticalAlignment="Top"/>
-                </DockPanel>
-
-                <!-- Your Profile Picture and Name -->
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                    <Image Source="img/post-picture.jpg" Width="50" Height="50" Margin="0,0,10,0"/>
-                    <TextBlock Text="?????" FontSize="18" VerticalAlignment="Center"/>
-                </StackPanel>
-
-                <!-- Add Post -->
-                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="0,0,0,20">
-                    <!-- Copy the post content here -->
-                    <!-- For demonstration, let's copy the existing post content -->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Post Content -->
-                        <StackPanel Grid.Column="0" Margin="10">
-                         
-                            <!-- Post Content (Image/Text) -->
-                            <StackPanel Margin="0,10">
-                                <Image Source="img/add-post-picture.png" Width="400" Height="300"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- Additional Description and Post Button -->
-                <StackPanel Margin="0,0,0,20">
-                    <TextBox x:Name="txtDescription" Text="Add description..." TextWrapping="Wrap" Height="50" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10"/>
-                    <Button Content="Post" Width="100" Height="40" Click="PostButton_Click"/>
-                </StackPanel>
+        <StackPanel Margin="10">
+            <!-- Step 1: Adding a text description -->
+            <StackPanel x:Name="txtDescriptionPanel" Margin="0,0,0,20">
+                <Label Content="Step 1: Adding a text description" FontWeight="Bold"/>
+                <TextBox x:Name="txtDescription" Text="" TextWrapping="Wrap" Height="100" VerticalScrollBarVisibility="Auto" Margin="0,5,0,10"/>
+                <Button Content="Next" Width="100" Height="40" Click="NextButton_Click"/>
             </StackPanel>
-        </ScrollViewer>
+
+            <!-- Step 2: Uploading media -->
+            <StackPanel x:Name="mediaUploadPanel" Margin="0,0,0,20" Visibility="Collapsed">
+                <Label Content="Step 2: Uploading media" FontWeight="Bold"/>
+                <Button Content="Upload Media" Width="150" Height="40" Click="UploadMediaButton_Click"/>
+                <Image x:Name="imagePreview" Width="200" Height="200" Margin="0,10,0,10" Visibility="Collapsed"/>
+                <Button Content="Next" Width="100" Height="40" Click="NextButton2_Click"/>
+            </StackPanel>
+
+            <!-- Step 3: Selecting physical location -->
+            <StackPanel x:Name="locationPanel" Margin="0,0,0,20" Visibility="Collapsed">
+                <Label Content="Step 3: Selecting physical location" FontWeight="Bold"/>
+                <TextBox x:Name="txtLocationSearch" Text="" Height="30" Margin="0,5,0,10" KeyUp="LocationSearchTextBox_KeyUp"/>
+                <ComboBox x:Name="locationDropdown" Width="200" Height="30" Margin="0,0,0,10" Visibility="Collapsed" SelectionChanged="LocationDropdown_SelectionChanged"/>
+                <Button Content="Next" Width="100" Height="40" Click="NextButton3_Click"/>
+            </StackPanel>
+
+
+            <!-- Step 4: Mentioning users -->
+            <StackPanel x:Name="mentionPanel" Margin="0,0,0,20" Visibility="Collapsed">
+                <Label Content="Step 4: Mentioning users" FontWeight="Bold"/>
+                <TextBox x:Name="txtUserSearch" Text="" Height="30" Margin="0,5,0,10" KeyUp="UserSearchTextBox_KeyUp"/>
+                <ListBox x:Name="userSearchListBox" SelectionMode="Multiple" Margin="0,5,0,10" SelectionChanged="UserSearchListBox_SelectionChanged"/>
+                <Label Content="Selected Users" FontWeight="Bold" Margin="0,10,0,5"/>
+                <ListBox x:Name="selectedUsersListBox" Margin="0,0,0,10"/>
+                <Button Content="Next" Width="100" Height="40" Click="NextButton4_Click"/>
+            </StackPanel>
+
+
+
+
+
+
+            <!-- Step 5: Posting -->
+            <StackPanel x:Name="postPanel" Margin="0,0,0,20" Visibility="Collapsed">
+                <Label Content="Step 5: Posting" FontWeight="Bold"/>
+                <Button Content="Post" Width="100" Height="40" Click="PostButton_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>
