@@ -1,4 +1,5 @@
-﻿using System;
+﻿using client.services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,14 +21,18 @@ namespace client
     /// </summary>
     public partial class LoginPage : Page
     {
-        public LoginPage()
+        private MainService service;
+
+        internal LoginPage(MainService mainService)
         {
+            service = mainService;
             InitializeComponent();
+
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
+            MainWindow mainWindow = new MainWindow(service);
             mainWindow.Show();
 
             Window.GetWindow(this).Close();

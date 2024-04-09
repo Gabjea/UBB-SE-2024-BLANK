@@ -17,6 +17,7 @@ namespace client.modules
             dbInstance = DatabaseConnection.Instance;
             conn = dbInstance.GetConnection();
 
+            conn.Close();
             conn.Open();
 
             String query = "Select * from configurations";

@@ -16,7 +16,8 @@ namespace client
 	{
 		App()
 		{
-			MainWindow m = new MainWindow();
+			MainService mainService = new MainService();
+			MainWindow m = new MainWindow(mainService);
 			m.Show();
 		}
 	}

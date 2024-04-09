@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using client.services;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace client
@@ -8,10 +9,11 @@ namespace client
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private MainService service;
+        internal MainWindow(MainService mainService)
         {
             InitializeComponent();
-            // Initialize with View 1
+            service = mainService;
             ShowHome();
             NavigationListBox.SelectionChanged += NavigationListBox_SelectionChanged;
         }
@@ -49,7 +51,7 @@ namespace client
 
         private void ShowHome()
         {
-            contentFrame.Content = new HomePage();
+            contentFrame.Content = new HomePage(service);
         }
 
         private void ShowAddPost()

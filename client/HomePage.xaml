@@ -3,121 +3,64 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:client"
+      xmlns:conv="clr-namespace:client"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage">
 
+    <Page.Resources>
+        <conv:FilePathToImageSourceConverter x:Key="FilePathToImageSourceConverter"/>
+    </Page.Resources>
+
     <Grid>
         <!-- Main Content Area -->
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,-302">
-            <StackPanel Margin="10">
-                <!-- Default Profile Icon and Login -->
-                <DockPanel Width="Auto" Margin="0,0,0,30">
-                    <TextBlock Text="Social App" FontSize="24" HorizontalAlignment="Center" Margin="250,0,0,0" VerticalAlignment="Top"/>
-                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top">
-                        <Image Source="img/default-profile-picture.png" Width="50" Height="50"/>
-                        <Button x:Name="LoginButton" Content="Log in" Margin="0,-10,0,0" Click="LoginButton_Click"/>
-                    </StackPanel>
-                </DockPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0">
+            <ItemsControl ItemsSource="{Binding Posts}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="0,10,0,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                <!-- Sample Post -->
-                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="0,10,0,10">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Margin="10">
+                                    <StackPanel Orientation="Horizontal">
+                                        <!--  <Image Source="{Binding ProfilePicture}" Width="50" Height="50" Margin="0,0,10,0"/>  -->
+                                        <Image Source="img/profile-picture.jpg" Width="50" Height="50" Margin="0,0,10,0"/>
+                                        <TextBlock Text="{Binding ownerUserID}" FontSize="18" VerticalAlignment="Center"/>
+                                    </StackPanel>
 
-                        <!-- Post Content -->
-                        <StackPanel Grid.Column="0" Margin="10">
-                            <!-- User Info (Profile Picture and Name) -->
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="img/profile-picture.jpg" Width="50" Height="50" Margin="0,0,10,0"/>
-                                <TextBlock Text="Tom" FontSize="18" VerticalAlignment="Center"/>
-                            </StackPanel>
+                                    <TextBlock Text="{Binding createdDate}" Foreground="Gray" Margin="0,5,0,0"/>
 
-                            <!-- Time Posted -->
-                            <TextBlock Text="3 min ago" Foreground="Gray" Margin="0,5,0,0"/>
+                                    <StackPanel Margin="0,10">
+                                        <Image Source="{Binding media.FilePath, Converter={StaticResource FilePathToImageSourceConverter}}" Width="50" Height="50" Margin="0,0,10,0"/>
+                                        <TextBlock TextWrapping="Wrap" Text="{Binding description}"/>
+                                    </StackPanel>
 
-                            <!-- Post Content (Image/Text) -->
-                            <StackPanel Margin="0,10">
-                                <Image Source="img/post-picture.jpg" Width="400" Height="300"/>
-                                <TextBlock TextWrapping="Wrap"><Run Text="felt cute might delete later 😘"/></TextBlock>
-                            </StackPanel>
-
-                            <!-- Likes and Comments -->
-                            <StackPanel Orientation="Horizontal">
-                                <!-- text block nu are onClick event si trebuie un workarounMouseDown="TextBlock_Click" -->
-                                <TextBlock Text="21 likes" Margin="0,0,10,0"/>
-                                <TextBlock Text="4 comments" Margin="0,0,10,0"/>
-                                <Button x:Name="shareButton1" Content="Share" Margin="0,0,10,0" Width="80" Click="shareButton1_Click"/>
-                                <Button x:Name="openPostButton1" Content="Open Post" Margin="0,0,10,0" Click="openPostButton1_Click" />
-                            </StackPanel>
-                        </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding LikesCount}" Margin="0,0,10,0"/>
+                                        <TextBlock Text="{Binding CommentsCount}" Margin="0,0,10,0"/>
+                                        <Button x:Name="shareButton1" Content="Share" Margin="0,0,10,0" Width="80" Click="shareButton1_Click"/>
+                                        <Button x:Name="openPostButton1" Content="Open Post" Margin="0,0,10,0" Click="openPostButton1_Click" />
+                                    </StackPanel>
+                                </StackPanel>
 
 
-                        <!-- Dropdown Menu -->
-                        <ComboBox x:Name="postOptions1" Margin="627,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="19" Height="19" SelectionChanged="ComboBox_SelectionChanged">
-                            <ComboBoxItem>Save</ComboBoxItem>
-                            <ComboBoxItem>Archive</ComboBoxItem>
-                            <ComboBoxItem>Edit</ComboBoxItem>
-                            <ComboBoxItem>Delete</ComboBoxItem>
-                            <ComboBoxItem Name="ReportMenuItem1">Report</ComboBoxItem>
-                        </ComboBox>
-                    </Grid>
-                </Border>
-
-                <!-- cel de sus e templateul la post, copy paste -->
-
-
-                <!-- Sample Post -->
-                <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="0,10,0,10">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Post Content -->
-                        <StackPanel Grid.Column="0" Margin="10">
-                            <!-- User Info (Profile Picture and Name) -->
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="img/profile-picture.jpg" Width="50" Height="50" Margin="0,0,10,0"/>
-                                <TextBlock Text="Tom" FontSize="18" VerticalAlignment="Center"/>
-                            </StackPanel>
-
-                            <!-- Time Posted -->
-                            <TextBlock Text="3 min ago" Foreground="Gray" Margin="0,5,0,0"/>
-
-                            <!-- Post Content (Image/Text) -->
-                            <StackPanel Margin="0,10">
-                                <TextBlock TextWrapping="Wrap"><Run Text="bring back bullying"/></TextBlock>
-                            </StackPanel>
-
-                            <!-- Likes and Comments -->
-                            <StackPanel Orientation="Horizontal">
-                                <!-- text block nu are onClick event si trebuie un workarounMouseDown="TextBlock_Click" -->
-                                <TextBlock Text="100 likes" Margin="0,0,10,0"/>
-                                <TextBlock Text="14 comments" Margin="0,0,10,0"/>
-                                <Button Content="Share" Margin="0,0,10,0" Width="80"/>
-                                <Button x:Name="openPostButton2" Content="Open Post" Margin="0,0,10,0" Click="openPostButton2_Click" />
-                            </StackPanel>
-                        </StackPanel>
-
-
-                        <!-- Dropdown Menu -->
-                        <ComboBox x:Name="postOptions2" Margin="627,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="19" Height="19" SelectionChanged="ComboBox_SelectionChanged">
-                            <ComboBoxItem>Save</ComboBoxItem>
-                            <ComboBoxItem>Archive</ComboBoxItem>
-                            <ComboBoxItem>Edit</ComboBoxItem>
-                            <ComboBoxItem>Delete</ComboBoxItem>
-                            <ComboBoxItem Name="ReportMenuItem2">Report</ComboBoxItem>
-                        </ComboBox>
-                    </Grid>
-                </Border>
-
-            </StackPanel>
+                                <!-- Dropdown Menu -->
+                                <ComboBox x:Name="postOptions1" Margin="627,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="19" Height="19" SelectionChanged="ComboBox_SelectionChanged">
+                                    <ComboBoxItem>Save</ComboBoxItem>
+                                    <ComboBoxItem>Archive</ComboBoxItem>
+                                    <ComboBoxItem>Edit</ComboBoxItem>
+                                    <ComboBoxItem>Delete</ComboBoxItem>
+                                    <ComboBoxItem Name="ReportMenuItem1">Report</ComboBoxItem>
+                                </ComboBox>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </Page>

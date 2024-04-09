@@ -9,9 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Properties\Resources.Designer.cs" />
+    <Compile Remove="Properties\Settings.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Properties\Resources.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="img\default-profile-picture.png" />
     <None Remove="img\post-picture.jpg" />
     <None Remove="img\profile-picture.jpg" />
+    <None Remove="Properties\Settings.settings" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="modules\" />
-    <Folder Include="models\" />
     <Folder Include="repositories\" />
   </ItemGroup>
 
@@ -38,21 +47,6 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.0" />
-  </ItemGroup>
-   
-  <ItemGroup>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
 
    
