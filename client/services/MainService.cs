@@ -19,13 +19,13 @@ namespace client.services
             PostSavedRepository postSavedRepository = new PostSavedRepository();
             PostReportedRepository postReportedRepository = new PostReportedRepository();
             LocationRepository locationRepository = new LocationRepository();
-            //PostsRepository postsRepository = new PostsRepository();
+            PostsRepository postsRepository = new PostsRepository();
 
             LocationService = new LocationService(locationRepository);
             PostArchivedService = new PostArchivedService(postArchivedRepository);
             PostReportedService = new PostReportedService(postReportedRepository);
             PostSavedService = new PostSavedService(postSavedRepository);
-            // PostsService = new PostsService(postsRepository);
+            PostsService = new PostsService(postsRepository);
         }
     }
 }
