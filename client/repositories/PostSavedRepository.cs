@@ -33,9 +33,9 @@ namespace client.repositories
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
-                command.Parameters.AddWithValue("@save_id", postSaved.PostId);
-                command.Parameters.AddWithValue("@post_id", postSaved.SavedPostId);
-                command.Parameters.AddWithValue("@user_id", postSaved.SaverId);
+                command.Parameters.AddWithValue("@save_id", postSaved.save_id);
+                command.Parameters.AddWithValue("@post_id", postSaved.post_id);
+                command.Parameters.AddWithValue("@user_id", postSaved.user_id);
                 
 
                 try
@@ -54,13 +54,13 @@ namespace client.repositories
 
         public bool removePostSavedFromDB(PostSaved postSaved)
         {
-            string query = "DELETE FROM post_saves WHERE post_id = @post_id";
+            string query = "DELETE FROM post_saves WHERE save_id = @save_id";
 
             conn.Open();
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
-                command.Parameters.AddWithValue("@post_id", postSaved.PostId);
+                command.Parameters.AddWithValue("@save_id", postSaved.save_id);
 
                 try
                 {

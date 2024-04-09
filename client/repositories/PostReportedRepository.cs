@@ -33,10 +33,11 @@ namespace client.repositories
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
-                command.Parameters.AddWithValue("@report_id", postReported.PostId);
-                command.Parameters.AddWithValue("@reason", postReported.ReportedPostId);
-                command.Parameters.AddWithValue("@description", postReported.message);
-                command.Parameters.AddWithValue("@reporter_id", postReported.ReporterId);
+                command.Parameters.AddWithValue("@report_id", postReported.report_id);
+                command.Parameters.AddWithValue("@reason", postReported.reason);
+                command.Parameters.AddWithValue("@description", postReported.description);
+                command.Parameters.AddWithValue("@post_id", postReported.post_id);
+                command.Parameters.AddWithValue("@reporter_id", postReported.reporter_id);
      
 
                 try
@@ -55,12 +56,12 @@ namespace client.repositories
 
         public bool removeReportedPostFromDB(PostReported postReported)
         {
-            string query = "DELETE FROM post_reports WHERE post_id = @post_id";
+            string query = "DELETE FROM post_reports WHERE report_id = @report_id";
 
             conn.Open();
             using (SqlCommand command = new SqlCommand(query, conn))
             {
-                command.Parameters.AddWithValue("@post_id", postReported.ReportedPostId);
+                command.Parameters.AddWithValue("@report_id", postReported.report_id);
 
                 try
                 {

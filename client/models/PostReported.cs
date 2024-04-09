@@ -8,19 +8,20 @@ namespace client.models
 {
     internal class PostReported
     {
-        public Guid ReportedPostId { get; set; }
-        public Guid PostId { get; set; }
-        public String message { get; set; }
+        public Guid report_id { get; set; }
+        public Guid post_id { get; set; }
+        public String description { get; set; }
         public String reason { get; set;}
-        public Guid ReporterId { get; set; }
+        public Guid reporter_id { get; set; }
 
         public PostReported(Guid reportedPostId, string _reason , string message, Guid postId,  Guid reporterId)
         {
-            this.ReportedPostId = reportedPostId;
-            this.PostId = postId;
-            this.message = message;
-            this.ReporterId = reporterId;
+            this.report_id = reportedPostId;
             this.reason = _reason;
+            this.description = message;
+            this.post_id = postId;
+            this.reporter_id = reporterId;
+            
         }
 
         
@@ -28,10 +29,11 @@ namespace client.models
         public override String ToString()
         {
             return "PostReported{" +
-                    "ReportedPostId=" + ReportedPostId +
-                    ", PostId=" + PostId +
-                    ", message='" + message + '\'' +
-                    ", ReporterId=" + ReporterId +
+                    "ReportedPostId=" + reporter_id +
+                    ", PostId=" + post_id +
+                    ", message='" + description + '\'' +
+                    ", ReporterId=" + reporter_id +
+                    ", Reason=" + reason +
                     '}';
         }
     }

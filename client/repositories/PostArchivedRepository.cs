@@ -27,14 +27,14 @@ namespace client.repositories
 
         public bool addPostArchivedToDB(PostArchived postArchived)
         {
-            string query = "INSERT INTO post_archive (owner_user_id,post_id) Values (@owner_user_id,@post_id)";
+            string query = "INSERT INTO post_archive (archive_id,post_id) Values (@archive_id,@post_id)";
 
             conn.Open();
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
-                command.Parameters.AddWithValue("@owner_user_id", postArchived.PostId);
-                command.Parameters.AddWithValue("@post_id", postArchived.ArchivedPostId);
+                command.Parameters.AddWithValue("@archive_id", postArchived.archive_id);
+                command.Parameters.AddWithValue("@post_id", postArchived.post_id);
                 
           
 
@@ -54,13 +54,13 @@ namespace client.repositories
 
         public bool removePostArchivedFromDB(PostArchived postArchived)
         {
-            string query = "DELETE FROM post_archive WHERE post_id = @post_id";
+            string query = "DELETE FROM post_archive WHERE archive_id = @archive_id";
 
             conn.Open();
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
-                command.Parameters.AddWithValue("@post_id", postArchived.ArchivedPostId);
+                command.Parameters.AddWithValue("@archive_id", postArchived.archive_id);
 
                 try
                 {

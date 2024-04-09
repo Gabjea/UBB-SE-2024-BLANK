@@ -8,21 +8,21 @@ namespace client.models
 {
     internal class PostArchived
     {
-        public Guid ArchivedPostId { get; set; }
-        public Guid PostId { get; set; }
+        public Guid archive_id { get; set; }
+        public Guid post_id { get; set; }
 
         public PostArchived(Guid archivedPostId, Guid postId)
         {
-            this.ArchivedPostId = archivedPostId;
-            this.PostId = postId;
+            this.archive_id = archivedPostId;
+            this.post_id = postId;
         }
 
        
         public override String ToString()
         {
             return "PostArchived{" +
-                    "archivedPostId=" + ArchivedPostId +
-                    ", postId=" + PostId +
+                    "archivedPostId=" + archive_id +
+                    ", postId=" + post_id +
                     '}';
         }
     }

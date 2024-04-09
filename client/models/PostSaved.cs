@@ -15,8 +15,8 @@ namespace client.models
         public PostSaved(Guid savedPostId,  Guid postId ,Guid saveUserId)
         {
             this.save_id = savedPostId;
-            this.post_id = saveUserId;
-            this.user_id = postId;
+            this.post_id = postId;
+            this.user_id = saveUserId;
         }
 
        
