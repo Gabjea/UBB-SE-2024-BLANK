@@ -24,7 +24,6 @@
     <Folder Include="modules\" />
     <Folder Include="models\" />
     <Folder Include="repositories\" />
-    <Folder Include="services\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,6 +32,7 @@
     <PackageReference Include="Serilog" Version="3.1.1" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="6.6.0" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.3" />
  </ItemGroup>
 
