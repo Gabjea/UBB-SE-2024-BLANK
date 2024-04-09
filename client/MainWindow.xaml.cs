@@ -33,7 +33,7 @@ namespace client
                         // ShowView3();
                         break;
                     case "Add Post":
-                        // ShowView4();
+                        ShowAddPost();
                         break;
                     case "Saved Posts":
                         ShowSavedPosts();
@@ -47,23 +47,23 @@ namespace client
             }
         }
 
-        // View 1
         private void ShowHome()
         {
             contentFrame.Content = new HomePage();
         }
 
-        // View 2
+        private void ShowAddPost()
+        {
+            contentFrame.Content = new AddPostPage();
+        }
+
         private void ShowSavedPosts()
         {
-            // Replace LoginPage() with your desired page
             contentFrame.Content = new SavedPostsPage();
         }
 
-        // View 3
         private void ShowArchivedPosts()
         {
-            // Replace LoginPage() with your desired page
             contentFrame.Content = new ArchivedPostsPage();
         }
     }

@@ -10,7 +10,7 @@
 
     <Grid>
         <!-- Main Content Area -->
-        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,0,-302">
             <StackPanel Margin="10">
                 <!-- Default Profile Icon and Login -->
                 <DockPanel Width="Auto" Margin="0,0,0,30">
@@ -51,7 +51,8 @@
                                 <!-- text block nu are onClick event si trebuie un workarounMouseDown="TextBlock_Click" -->
                                 <TextBlock Text="21 likes" Margin="0,0,10,0"/>
                                 <TextBlock Text="4 comments" Margin="0,0,10,0"/>
-                                <Button Content="Share" Margin="0,0,10,0" Width="80"/>
+                                <Button x:Name="shareButton1" Content="Share" Margin="0,0,10,0" Width="80" Click="shareButton1_Click"/>
+                                <Button x:Name="openPostButton1" Content="Open Post" Margin="0,0,10,0" Click="openPostButton1_Click" />
                             </StackPanel>
                         </StackPanel>
 
@@ -100,6 +101,7 @@
                                 <TextBlock Text="100 likes" Margin="0,0,10,0"/>
                                 <TextBlock Text="14 comments" Margin="0,0,10,0"/>
                                 <Button Content="Share" Margin="0,0,10,0" Width="80"/>
+                                <Button x:Name="openPostButton2" Content="Open Post" Margin="0,0,10,0" Click="openPostButton2_Click" />
                             </StackPanel>
                         </StackPanel>
 
