@@ -29,5 +29,10 @@ namespace client.models
 
             this.FilePath = newFilePath;
         }
+
+        public Media(String filePath)
+        {
+            this.FilePath = filePath;
+        }
     }
 }
