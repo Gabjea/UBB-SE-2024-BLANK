@@ -8,28 +8,45 @@ using Microsoft.Data.SqlClient;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using client.models;
+using System.Windows;
 
 namespace client.repositories
 {
     internal class PostSavedRepository
     {
-        private PostSavedService service;
+
 
         private DatabaseConnection dbInstance;
         private SqlConnection conn;
 
         public PostSavedRepository()
         {
-            service = new PostSavedService();
+            
             dbInstance = DatabaseConnection.Instance;
             conn = dbInstance.GetConnection();
         }
 
         public bool addPostSavedtoDB(PostSaved postSaved)
         {
+            string queryCheck = "SELECT COUNT(*) FROM post_saves WHERE post_id = @post_id";
             string query = "INSERT INTO post_saves (save_id,post_id,user_id) Values (@save_id,@post_id,@user_id)";
 
             conn.Open();
+            using (SqlCommand commandCheck = new SqlCommand(queryCheck, conn))
+            {
+                // Add parameters to the command to prevent SQL injection
+                commandCheck.Parameters.AddWithValue("@post_id", postSaved.save_id);
+
+                int existingRecordsCount = (int)commandCheck.ExecuteScalar();
+
+                if (existingRecordsCount > 0)
+                {
+                    MessageBox.Show("Error: The post_id already exists in the database.");
+                    conn.Close();
+                    return false;
+                }
+            }
+
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
@@ -44,6 +61,7 @@ namespace client.repositories
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show("Error: " + ex.Message);
                     conn.Close();
                     return false;
                 }

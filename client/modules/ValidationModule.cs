@@ -1,20 +1,56 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
+
 
 namespace client.modules
 {
     internal class ValidationModule
     {
-        private readonly string[] allowedPictureTypes = { ".jpg", ".jpeg", ".png", ".gif" };
-        private readonly string[] allowedVideoTypes = { ".mp4", ".avi", ".mov", ".mkv" };
-        private readonly long maxSizeInBytes = 50 * 1024 * 1024; // 50 MB
 
-        public void ValidateFile(string filePath)
+        private DatabaseConnection dbInstance;
+        private SqlConnection conn;
+
+
+        private String[] allowedFileExtensions;
+        private readonly long maxSizeInBytes;
+        public ValidationModule()
         {
+            dbInstance = DatabaseConnection.Instance;
+            conn = dbInstance.GetConnection();
+
+            conn.Open();
+
+            String query = "Select * from configurations";
+
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        allowedFileExtensions = reader.GetString(0).Split(" ");
+                        maxSizeInBytes = reader.GetInt32(1) * 1024 * 1024;
+                    }
+                }
+            }
+            conn.Close();
+        }
+
+
+        public String[] getAllowedFileExtensions()
+        {
+            return allowedFileExtensions;
+        }
+
+        public void ValidateFile(String filePath)
+        {
+
             try
             {
                 if (!File.Exists(filePath))
@@ -31,29 +67,15 @@ namespace client.modules
                 }
 
                 // Check file type
-                string fileExtension = Path.GetExtension(filePath);
+                String fileExtension = Path.GetExtension(filePath);
                 bool isValidType = false;
 
-                // Check if it's a picture format
-                foreach (string allowedType in allowedPictureTypes)
+                foreach (String allowedType in allowedFileExtensions)
                 {
                     if (fileExtension.Equals(allowedType, StringComparison.InvariantCultureIgnoreCase))
                     {
                         isValidType = true;
                         break;
-                    }
-                }
-
-                // Check if it's a video format if not a picture format
-                if (!isValidType)
-                {
-                    foreach (string allowedType in allowedVideoTypes)
-                    {
-                        if (fileExtension.Equals(allowedType, StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            isValidType = true;
-                            break;
-                        }
                     }
                 }
 
@@ -79,5 +101,4 @@ namespace client.modules
             }
         }
     }
-
 }

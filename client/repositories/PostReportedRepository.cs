@@ -9,6 +9,7 @@ using client.services;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using client.models;
+using System.Windows;
 
 namespace client.repositories
 {
@@ -16,20 +17,35 @@ namespace client.repositories
     {
         private DatabaseConnection dbInstance;
         private SqlConnection conn;
-        private PostReportedService service;
+
 
         public PostReportedRepository(PostReportedService _service)
         {
             dbInstance = DatabaseConnection.Instance;
             conn = dbInstance.GetConnection();
-            service = _service;
+           
         }
 
         public bool addReportedPostToDB(PostReported postReported)
         {
+            string queryCheck = "SELECT COUNT(*) FROM post_reports WHERE report_id = @report_id";
             string query = "INSERT INTO post_reports (report_id,reason,description,post_id,reporter_id) Values (@report_id,@reason,@description,@post_id,@reporter_id)";
-
             conn.Open();
+            using (SqlCommand commandCheck = new SqlCommand(queryCheck, conn))
+            {
+                // Add parameters to the command to prevent SQL injection
+                commandCheck.Parameters.AddWithValue("@report_id", postReported.report_id);
+
+                int existingRecordsCount = (int)commandCheck.ExecuteScalar();
+
+                if (existingRecordsCount > 0)
+                {
+                    MessageBox.Show("Error: The report_id already exists in the database.");
+                    conn.Close();
+                    return false;
+                }
+            }
+            
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 // Add parameters to the command to prevent SQL injection
@@ -46,6 +62,7 @@ namespace client.repositories
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show("Error: " + ex.Message);
                     conn.Close();
                     return false;
                 }
