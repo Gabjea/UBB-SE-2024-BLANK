@@ -26,6 +26,7 @@ namespace client.models
 		public List<String>? mentionedUsersUsernames { get; set; }
 
         public int LikesCount { get; set; }
+        public String? locationName { get; set; }
 
 		public Post(Guid _id,String? _description, Guid _onwerUserID, List<Guid> _mentionedUsers, Guid _commentedPostID, Guid _orignalPostID, Media? _media, int _postType, String? _locationID, DateTime _createdDate)
 		{

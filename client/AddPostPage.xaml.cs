@@ -205,6 +205,10 @@ namespace client
 			{
 				mentions += kvp.Value + "\n";
 			}
+			if (string.IsNullOrEmpty(selectedLocation))
+			{
+				selectedLocation = "+";
+			}
 
 			if(service.PostsService.addPost(Guid.Parse("D6666B72-7E1F-4A8D-9226-38F6DA717A77"), description, selectedUsersDictionary.Keys.ToList(), Guid.Empty, Guid.Empty, filepath, 1, selectedLocation))
 			{
