@@ -21,7 +21,7 @@ namespace client.services
         public List<Post> getAllPosts()
         {
             List<Post> posts = PostsService.getAllPosts();
-            posts.ForEach( post =>
+            posts.ForEach(async post =>
             {
                 post.user = UserService.getUserById(post.ownerUserID);
                 post.mentionedUsersUsernames = new List<String>();
@@ -33,7 +33,19 @@ namespace client.services
 					    post.mentionedUsersUsernames.Add(curUser.Username);
                 });
                 post.LikesCount = PostsService.getPostLikeCount(post.id);
-            });
+
+				if (!post.locationID.Contains("+"))
+				{
+                    
+					Location location = await LocationService.GetLocationById(post.locationID);
+					if (location != null)
+					{
+						post.locationName = location.Name;
+					}
+				}
+
+
+			});
             return posts;
         }
 
