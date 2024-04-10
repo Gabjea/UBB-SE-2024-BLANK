@@ -3,7 +3,7 @@ using client.modules;
 
 namespace client.models
 {
-    class Media
+    public class Media
     {
         private readonly ValidationModule validationModule;
         public String FilePath { get; set; }

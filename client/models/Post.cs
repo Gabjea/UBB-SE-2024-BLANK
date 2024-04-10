@@ -8,21 +8,21 @@ using System.Windows.Controls;
 namespace client.models
 {   
    
-    class Post
+    public class Post
     {
 
         public Guid id { get; set; }
         public String? description { get; set; }
         public Guid ownerUserID {  get; set; }
         public List<Guid> mentionedUsers { get; set; }
-        public Guid? commentedPostID {  get; set; }
-        public Guid? originalPostID { get; set; }
+        public Guid commentedPostID {  get; set; }
+        public Guid originalPostID { get; set; }
         public Media? media { get; set; }
         public int postType { get; set; }
         public String? locationID { get; set; }
         public DateTime createdDate { get; set; }
 
-        public Post(Guid _id,String? _description, Guid _onwerUserID, List<Guid> _mentionedUsers, Guid? _commentedPostID, Guid? _orignalPostID, Media? _media, int _postType, String? _locationID, DateTime _createdDate)
+        public Post(Guid _id,String? _description, Guid _onwerUserID, List<Guid> _mentionedUsers, Guid _commentedPostID, Guid _orignalPostID, Media? _media, int _postType, String? _locationID, DateTime _createdDate)
 		{
             id = _id;
             description = _description;

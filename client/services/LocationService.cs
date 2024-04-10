@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Documents;
 using client.models;
 using client.repositories;
 
@@ -22,5 +22,10 @@ namespace client.services
         {
             return await _locationRepository.GetLocationDetails(locationId);
         }
-    }
+
+		public async Task<List<Location>> SearchLocations(String querry)
+		{
+			return await _locationRepository.SearchLocations(querry);
+		}
+	}
 }

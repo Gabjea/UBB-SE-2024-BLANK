@@ -1,5 +1,9 @@
-﻿using Microsoft.Win32;
+﻿using client.models;
+using client.services;
+using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,11 +13,10 @@ namespace client
 {
 	public partial class AddPostPage : Page
 	{
-		private HashSet<string> selectedUsersSet = new HashSet<string>();
-		private String description = "";
-		private String filepath = "";
+		private Dictionary<Guid, string> selectedUsersDictionary = new Dictionary<Guid, string>();
+		private string description = "";
+		private string filepath = "";
 		private string selectedLocation = "";
-
 
 		// Simulated list of users (replace with actual user data)
 		private List<string> allUsersList = new List<string>()
@@ -25,9 +28,12 @@ namespace client
 			"User 5"
 		};
 
-		public AddPostPage()
+		private MainService service;
+
+		internal AddPostPage(MainService _service)
 		{
 			InitializeComponent();
+			service = _service;
 			PopulateUserSearchList(allUsersList);
 		}
 
@@ -37,6 +43,11 @@ namespace client
 			txtDescriptionPanel.Visibility = Visibility.Collapsed; // Hide text description panel
 			mediaUploadPanel.Visibility = Visibility.Visible; // Show media upload panel
 			description = txtDescription.Text;
+			List<Post> posts = service.PostsService.getAllPosts();
+			foreach (Post post in posts)
+			{
+				MessageBox.Show(post.media.FilePath.ToString());
+			}
 		}
 
 		private void UploadMediaButton_Click(object sender, RoutedEventArgs e)
@@ -59,7 +70,6 @@ namespace client
 				// Set the source of the image preview control
 				imagePreview.Source = new BitmapImage(new Uri(filePath));
 				imagePreview.Visibility = Visibility.Visible; // Show the image preview
-
 			}
 		}
 
@@ -69,36 +79,49 @@ namespace client
 			mediaUploadPanel.Visibility = Visibility.Collapsed; // Hide media upload panel
 			locationPanel.Visibility = Visibility.Visible; // Show location selection panel
 		}
-
-		private void LocationSearchTextBox_KeyUp(object sender, KeyEventArgs e)
+		List<Location> locations;
+		private async void LocationSearchTextBox_KeyUpAsync(object sender, KeyEventArgs e)
 		{
-			// Perform location search based on user input and populate dropdown list
-			string searchQuery = txtLocationSearch.Text.Trim();
-			if (!string.IsNullOrWhiteSpace(searchQuery))
+			// Check if the Enter key is pressed
+			if (e.Key == Key.Enter)
 			{
-				// Simulated location search results for demonstration
-				List<string> locations = new List<string>()
-		{
-			"Location 1",
-			"Location 2",
-			"Location 3",
-			"Location 4",
-			"Location 5"
-		};
+				// Perform location search based on user input and populate dropdown list
+				string searchQuery = txtLocationSearch.Text.Trim();
+				if (!string.IsNullOrWhiteSpace(searchQuery))
+				{
+					// Simulated location search results for demonstration
+					locations = await service.LocationService.SearchLocations(searchQuery);
 
-				locationDropdown.ItemsSource = locations;
-				locationDropdown.Visibility = Visibility.Visible; // Show dropdown list
-			}
-			else
-			{
-				locationDropdown.Visibility = Visibility.Collapsed; // Hide dropdown list if search query is empty
+					// Populate the dropdown with location names
+					locationDropdown.ItemsSource = locations.Select(loc => loc.Name);
+					locationDropdown.Visibility = Visibility.Visible; // Show dropdown list
+				}
+				else
+				{
+					locationDropdown.Visibility = Visibility.Collapsed; // Hide dropdown list if search query is empty
+				}
 			}
 		}
+
+
+
 		private void LocationDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			// Update the selected location when the user selects an item from the dropdown list
-			selectedLocation = locationDropdown.SelectedItem?.ToString();
+			string selectedLocationName = locationDropdown.SelectedItem as string;
+			if (selectedLocationName != null)
+			{
+				foreach (Location loc in locations)
+				{
+					if (loc.Name == selectedLocationName)
+					{
+						selectedLocation = loc.Id;
+						break; 
+					}
+				}
+			}
 		}
+
 
 		private void NextButton3_Click(object sender, RoutedEventArgs e)
 		{
@@ -138,10 +161,11 @@ namespace client
 			postPanel.Visibility = Visibility.Visible; // Show post panel
 
 			// Store the selected users globally
-			selectedUsersSet.Clear();
+			selectedUsersDictionary.Clear();
 			foreach (string selectedUser in selectedUsersListBox.Items)
 			{
-				selectedUsersSet.Add(selectedUser);
+				Guid key = Guid.NewGuid(); // Generate a new Guid as the key
+				selectedUsersDictionary.Add(key, selectedUser);
 			}
 		}
 
@@ -179,31 +203,24 @@ namespace client
 				// Clear selection
 				sourceListBox.SelectedItem = null;
 
-				// Update selected users set
-				if (destinationListBox == selectedUsersListBox)
-				{
-					selectedUsersSet.Add(selectedUser);
-				}
-				else
-				{
-					selectedUsersSet.Remove(selectedUser);
-				}
+				// No need to update the selected users dictionary here since it's handled in NextButton4_Click
 			}
 		}
 
-
 		private void PostButton_Click(object sender, RoutedEventArgs e)
-			{
+		{
+			// Step 5: Posting - Perform posting action
 			string mentions = "";
-				foreach(string user in selectedUsersSet)
-				{
-				mentions += user + "\n"; 
-				}
-
-			MessageBox.Show(mentions);
-			MessageBox.Show(description);
-			MessageBox.Show(filepath);
-			MessageBox.Show(selectedLocation);
+			foreach (var kvp in selectedUsersDictionary)
+			{
+				mentions += kvp.Value + "\n";
 			}
+
+			if(service.PostsService.addPost(Guid.Parse("D5711B72-7E1F-4A8D-9226-38F6DA717A77"), description, selectedUsersDictionary.Keys.ToList(), Guid.Empty, Guid.Empty, filepath, 1, selectedLocation))
+			{
+				MessageBox.Show("Post was added successfully");
+			}else MessageBox.Show("Post could not be created");
+
+		}
 	}
 }

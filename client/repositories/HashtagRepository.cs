@@ -120,7 +120,7 @@ namespace client.repositories
                     return false;
                 }
             }
-        }
+		}
 
         public List<Post> getAllPosts(String hashtagId)
         {
@@ -140,8 +140,8 @@ namespace client.repositories
                         Guid post_id = Guid.Parse(reader.GetString(0).ToUpper());
                         Guid owner_user_id = Guid.Parse(reader.GetString(1));
                         String? description = reader.IsDBNull(2) ? null : reader.GetString(2);
-                        Guid? commented_post_id = reader.IsDBNull(3) ? (Guid?)null : Guid.Parse(reader.GetString(3));
-                        Guid? original_post_id = reader.IsDBNull(4) ? (Guid?)null : Guid.Parse(reader.GetString(4));
+                        Guid commented_post_id = reader.IsDBNull(3) ? Guid.Empty : Guid.Parse(reader.GetString(3));
+                        Guid original_post_id = reader.IsDBNull(4) ? Guid.Empty : Guid.Parse(reader.GetString(4));
                         String? media_path = reader.IsDBNull(5) ? null : reader.GetString(5);
                         int post_type = reader.GetInt16(6);
                         String? location_id = reader.IsDBNull(7) ? null : reader.GetString(7);
