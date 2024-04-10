@@ -17,16 +17,8 @@ namespace client
 		private string description = "";
 		private string filepath = "";
 		private string selectedLocation = "";
-
+		private List<User> allUsersList;
 		// Simulated list of users (replace with actual user data)
-		private List<string> allUsersList = new List<string>()
-		{
-			"Friend 1",
-			"Friend 2",
-			"User 3",
-			"User 4",
-			"User 5"
-		};
 
 		private MainService service;
 
@@ -34,20 +26,19 @@ namespace client
 		{
 			InitializeComponent();
 			service = _service;
+			allUsersList = service.UserService.getAllUsers();
 			PopulateUserSearchList(allUsersList);
 		}
 
+		
+		
 		private void NextButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Step 1: Adding a text description - Hide this panel and show the next panel
 			txtDescriptionPanel.Visibility = Visibility.Collapsed; // Hide text description panel
 			mediaUploadPanel.Visibility = Visibility.Visible; // Show media upload panel
 			description = txtDescription.Text;
-			List<Post> posts = service.PostsService.getAllPosts();
-			foreach (Post post in posts)
-			{
-				MessageBox.Show(post.media.FilePath.ToString());
-			}
+			
 		}
 
 		private void UploadMediaButton_Click(object sender, RoutedEventArgs e)
@@ -134,21 +125,22 @@ namespace client
 
 		private void UserSearchTextBox_KeyUp(object sender, RoutedEventArgs e)
 		{
-			string searchQuery = txtUserSearch.Text.Trim();
+			string searchQuery = txtUserSearch.Text.Trim().ToLower(); // Convert search query to lowercase
 
 			// Filter the user list based on the search query
-			List<string> filteredUsers = allUsersList.Where(user => user.ToLower().Contains(searchQuery.ToLower())).ToList();
+			List<User> filteredUsers = allUsersList.Where(user => user.Username.ToLower().Contains(searchQuery)).ToList();
 			PopulateUserSearchList(filteredUsers);
 		}
 
+
 		// Method to update the ListBox with matching users
-		private void PopulateUserSearchList(List<string> users)
+		private void PopulateUserSearchList(List<User> users)
 		{
 			// Clear the existing items from the ListBox
 			userSearchListBox.Items.Clear();
 
 			// Update the ListBox with matching users
-			foreach (string user in users)
+			foreach (User user in users)
 			{
 				userSearchListBox.Items.Add(user);
 			}
@@ -162,10 +154,9 @@ namespace client
 
 			// Store the selected users globally
 			selectedUsersDictionary.Clear();
-			foreach (string selectedUser in selectedUsersListBox.Items)
+			foreach (User selectedUser in selectedUsersListBox.Items)
 			{
-				Guid key = Guid.NewGuid(); // Generate a new Guid as the key
-				selectedUsersDictionary.Add(key, selectedUser);
+				selectedUsersDictionary.Add(selectedUser.Id, selectedUser.Username);
 			}
 		}
 
@@ -185,7 +176,7 @@ namespace client
 		{
 			if (sourceListBox.SelectedItem != null)
 			{
-				string selectedUser = sourceListBox.SelectedItem.ToString();
+				User selectedUser = sourceListBox.SelectedItem as User;
 
 				// Check if the user is already selected
 				if (destinationListBox.Items.Contains(selectedUser))
@@ -206,7 +197,6 @@ namespace client
 				// No need to update the selected users dictionary here since it's handled in NextButton4_Click
 			}
 		}
-
 		private void PostButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Step 5: Posting - Perform posting action
@@ -216,7 +206,7 @@ namespace client
 				mentions += kvp.Value + "\n";
 			}
 
-			if(service.PostsService.addPost(Guid.Parse("D5711B72-7E1F-4A8D-9226-38F6DA717A77"), description, selectedUsersDictionary.Keys.ToList(), Guid.Empty, Guid.Empty, filepath, 1, selectedLocation))
+			if(service.PostsService.addPost(Guid.Parse("D6666B72-7E1F-4A8D-9226-38F6DA717A77"), description, selectedUsersDictionary.Keys.ToList(), Guid.Empty, Guid.Empty, filepath, 1, selectedLocation))
 			{
 				MessageBox.Show("Post was added successfully");
 			}else MessageBox.Show("Post could not be created");

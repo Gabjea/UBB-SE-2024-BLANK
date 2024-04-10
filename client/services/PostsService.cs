@@ -31,6 +31,13 @@ namespace client.services
 
 			if(repository.addPostToDB(newPost))
 			{
+				if(mentionedUsers.Count > 0)
+				{
+					mentionedUsers.ForEach(user =>
+					{
+						addMentionToPost(newPost.id,user);
+					});
+				}
 				return true;
 			}
 			return false;
@@ -72,6 +79,15 @@ namespace client.services
 			return false;
 		}
 
+		public bool addMentionToPost(Guid postID, Guid userID)
+		{
+			if (repository.addMentionToPost(postID, userID))
+			{
+				return true;
+			}
+			return false;
+		}
+
 		public bool removeReactionToPost(Guid postID, Guid userID)
 		{
 			if (repository.removeReactionToPost(postID, userID))
@@ -87,5 +103,11 @@ namespace client.services
 		public List<Post> getAllPostsFromLocation(String location_id) {
 			return repository.getAllPostsFromLocation(location_id);
 		}
+
+		public int getPostLikeCount(Guid postID)
+		{
+			return repository.getPostLikeCount(postID);
+		}
+
 }
 }

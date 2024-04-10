@@ -115,6 +115,35 @@ namespace client.repositories
 			conn.Close();
 			return true;
 		}
+
+		public bool addMentionToPost(Guid postID, Guid userID)
+		{
+			string query = "INSERT INTO mentions (post_id, user_id) VALUES (@post_id, @user_id)";
+
+			conn.Open();
+			using (SqlCommand command = new SqlCommand(query, conn))
+			{
+				// Add parameters to the command to prevent SQL injection
+				command.Parameters.AddWithValue("@post_id", postID);
+				command.Parameters.AddWithValue("@user_id", userID);
+
+				try
+				{
+
+					int rowsAffected = command.ExecuteNonQuery();
+
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show("Error: " + ex.Message);
+					conn.Close();
+					return false;
+				}
+			}
+			conn.Close();
+			return true;
+		}
+
 		public bool removeReactionToPost(Guid postID, Guid userID)
 		{
 			string query = "DELETE FROM reactions WHERE post_id = @post_id AND user_id = @user_id";
@@ -333,5 +362,25 @@ namespace client.repositories
 			conn.Close();
 			return posts;
 		}
+
+		public int getPostLikeCount(Guid postId)
+		{
+			string query = "select count(*) from reactions where post_id = @post_id and reaction = @reaction";
+			conn.Open();
+
+			using (SqlCommand command = new SqlCommand(query, conn))
+			{
+				command.Parameters.AddWithValue("@post_id", postId);
+				command.Parameters.AddWithValue("@reaction", 0);
+
+				int count = (int)command.ExecuteScalar();
+				conn.Close();
+				return count;
+
+			}
+			
+		}
+
+
 	}
 }

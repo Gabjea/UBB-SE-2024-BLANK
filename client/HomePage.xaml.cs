@@ -27,14 +27,16 @@ namespace client
         private MainService service;
         public ObservableCollection<Post> Posts { get; set; }
 
-        internal HomePage(MainService mainService)
+        private Frame contentFrame;
+
+		internal HomePage(MainService mainService, Frame _contentFrame)
         {
             InitializeComponent();
             service = mainService;
-
+            contentFrame = _contentFrame;
             // Fetch posts from the repository
-            Posts = new ObservableCollection<Post>(service.PostsService.getAllPosts());
-            Posts.ToList().ForEach(post => MessageBox.Show(post.media.GetType().ToString()));
+            Posts = new ObservableCollection<Post>(service.getAllPosts());
+         
             PostsControl.Items.Clear();
             DataContext = this;
         }
@@ -79,5 +81,23 @@ namespace client
         {
 
         }
-    }
+
+		private void LikesCount_Click(object sender, RoutedEventArgs e)
+		{
+			// Get the Button that triggered the event
+			Button button = sender as Button;
+
+			// Get the DataContext of the Button, which should be the Post object
+			if (button?.DataContext is Post post)
+			{
+				// Access the Post object's properties, such as its Id
+				Guid postId = post.id;
+                service.PostsService.addReactionToPost(postId, post.ownerUserID, 0);
+				// Now you can use the postId as needed
+				contentFrame.Content = new HomePage(service,contentFrame);
+			}
+		}
+
+
+	}
 }

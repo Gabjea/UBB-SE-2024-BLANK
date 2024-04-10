@@ -2,10 +2,15 @@
 {
     class PhotoMedia : Media
     {
-        public PhotoMedia(string filePath) :
-            base(filePath, ".jpg")
+        public PhotoMedia(string filePath, string ext) :
+            base(filePath, ext)
         {
 
         }
-    }
+		public PhotoMedia(string filePath) :
+		   base(filePath)
+		{
+
+		}
+	}
 }
