@@ -200,14 +200,12 @@ namespace client.repositories
 			List<Post> posts = new List<Post>();
 			using (SqlCommand command = new SqlCommand(query, conn))
 			{
-				
-			
-				conn.Open();
-				using (SqlDataReader reader = command.ExecuteReader())
+				conn.Close();
+                conn.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
 				{
 					while (reader.Read())
 					{
-
 						Guid post_id = Guid.Parse(reader.GetString(0));
 						Guid owner_user_id = Guid.Parse(reader.GetString(1));
 						String? description = reader.IsDBNull(2) ? null : reader.GetString(2);
@@ -270,9 +268,9 @@ namespace client.repositories
 		public List<Post> getAllPostsFromLocation(String locationID) {
 			string query = "SELECT * FROM posts WHERE location_id = @location_id";
 			List<Post> posts = new List<Post>();
+            conn.Open();
 
-			conn.Open();
-			using (SqlCommand command = new SqlCommand(query, conn))
+            using (SqlCommand command = new SqlCommand(query, conn))
 			{
 
 				command.Parameters.AddWithValue("@location_id", locationID);

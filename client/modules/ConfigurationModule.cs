@@ -77,6 +77,7 @@ namespace client.modules
                     }
                 }
             }
+            conn.Close();
         }
     }
 }

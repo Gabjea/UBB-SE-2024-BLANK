@@ -1,5 +1,9 @@
-﻿using System;
+﻿using client.models;
+using client.repositories;
+using client.services;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,22 +24,30 @@ namespace client
     /// </summary>
     public partial class HomePage : Page
     {
-        public HomePage()
+        private MainService service;
+        public ObservableCollection<Post> Posts { get; set; }
+
+        internal HomePage(MainService mainService)
         {
             InitializeComponent();
+            service = mainService;
+
+            // Fetch posts from the repository
+            Posts = new ObservableCollection<Post>(service.PostsService.getAllPosts());
+            Posts.ToList().ForEach(post => MessageBox.Show(post.media.GetType().ToString()));
+            PostsControl.Items.Clear();
+            DataContext = this;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            LoginPage loginPage = new LoginPage();
-
+            LoginPage loginPage = new LoginPage(service);
             Window window = Window.GetWindow(this);
             if (window != null)
             {
                 window.Content = loginPage;
             }
         }
-
 
         private void ReportMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -46,19 +58,7 @@ namespace client
 
         private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (postOptions1.SelectedItem != null && ((ComboBoxItem)postOptions1.SelectedItem).Name == "ReportMenuItem1")
-            {
-                ReportModalWindow reportModal = new ReportModalWindow();
-                reportModal.ShowDialog();
-                postOptions1.SelectedIndex = -1;
-            }
-
-            if (postOptions2.SelectedItem != null && ((ComboBoxItem)postOptions2.SelectedItem).Name == "ReportMenuItem2")
-            {
-                ReportModalWindow reportModal = new ReportModalWindow();
-                reportModal.ShowDialog();
-                postOptions2.SelectedIndex = -1;
-            }
+            
         }
 
         private void shareButton1_Click(object sender, RoutedEventArgs e)

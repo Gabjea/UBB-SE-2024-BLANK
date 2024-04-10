@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using System.Windows;
 using client.modules;
 
 namespace client.models
 {
-    class Media
+    public class Media
     {
         private readonly ValidationModule validationModule;
         public String FilePath { get; set; }
@@ -17,6 +18,7 @@ namespace client.models
             }
             catch (Exception ex)
             {
+                MessageBox.Show(filePath);
                 throw new Exception("Invalid file path!");
             }
 

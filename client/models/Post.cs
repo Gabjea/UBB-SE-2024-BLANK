@@ -8,7 +8,7 @@ using System.Windows.Controls;
 namespace client.models
 {   
    
-    class Post
+    public class Post
     {
 
         public Guid id { get; set; }
