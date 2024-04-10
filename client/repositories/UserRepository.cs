@@ -46,5 +46,35 @@ namespace client.repositories
 
             return null;
         }
+
+        public List<User> getAllUsers()
+        {
+			string query = "SELECT * FROM users";
+			List<User> users = new List<User>();
+			conn.Open();
+			using (SqlCommand command = new SqlCommand(query, conn))
+			{
+
+
+
+				using (SqlDataReader reader = command.ExecuteReader())
+				{
+                    
+					while (reader.Read())
+					{
+						Guid userId = new Guid(reader.GetString(0));
+						String username = reader.GetString(1);
+						String profilePicturePath = reader.GetString(2);
+						
+
+						users.Add( new User(userId, username, profilePicturePath));
+					}
+				}
+			}
+
+			conn.Close();
+
+			return users;
+		}
     }
 }

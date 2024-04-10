@@ -22,5 +22,10 @@ namespace client.services
         {
             return _userRepository.getUserById(id);
         }
+
+        public List<User> getAllUsers()
+        {
+            return _userRepository.getAllUsers();
+        }
     }
 }

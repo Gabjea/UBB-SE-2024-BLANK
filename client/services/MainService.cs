@@ -1,4 +1,6 @@
-﻿using client.repositories;
+﻿using client.models;
+using client.repositories;
+using System.Windows.Forms;
 
 namespace client.services
 {
@@ -15,6 +17,26 @@ namespace client.services
         public PostsService PostsService { get; }
 
         public UserService UserService { get; }
+
+        public List<Post> getAllPosts()
+        {
+            List<Post> posts = PostsService.getAllPosts();
+            posts.ForEach( post =>
+            {
+                post.user = UserService.getUserById(post.ownerUserID);
+                post.mentionedUsersUsernames = new List<String>();
+
+				post.mentionedUsers.ForEach(user =>
+                {
+                    User? curUser = UserService.getUserById(user);
+                    if(curUser != null)
+					    post.mentionedUsersUsernames.Add(curUser.Username);
+                });
+                post.LikesCount = PostsService.getPostLikeCount(post.id);
+            });
+            return posts;
+        }
+
         public MainService()
         {
             PostArchivedRepository postArchivedRepository = new PostArchivedRepository();

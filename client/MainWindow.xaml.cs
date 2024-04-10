@@ -51,12 +51,12 @@ namespace client
 
         private void ShowHome()
         {
-            contentFrame.Content = new HomePage(service);
+            contentFrame.Content = new HomePage(service,contentFrame);
         }
 
         private void ShowAddPost()
         {
-            contentFrame.Content = new AddPostPage();
+            contentFrame.Content = new AddPostPage(service);
         }
 
         private void ShowSavedPosts()

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace client.models
 {
-    class User
+    public class User
     {
         public Guid _id;
 
@@ -38,5 +38,9 @@ namespace client.models
             set { _profilePicturePath = value; }
         }
 
+        public override string ToString()
+        {
+            return _username;
+        }
     }
 }
