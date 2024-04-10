@@ -15,7 +15,15 @@
     <Grid>
         <!-- Main Content Area -->
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0">
-            <ItemsControl ItemsSource="{Binding Posts}">
+            <ItemsControl x:Name="PostsControl" ItemsSource="{Binding Posts}">
+                <!-- Default Profile Icon and Login -->
+                <DockPanel Width="Auto" Margin="0,0,0,30">
+                    <TextBlock Text="Social App" FontSize="24" HorizontalAlignment="Center" Margin="250,0,0,0" VerticalAlignment="Top"/>
+                    <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Image Source="img/default-profile-picture.png" Width="50" Height="50"/>
+                        <Button x:Name="LoginButton" Content="Log in" Margin="0,-10,0,0" Click="LoginButton_Click"/>
+                    </StackPanel>
+                </DockPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="Black" BorderThickness="1" CornerRadius="5" Margin="0,10,0,10">
