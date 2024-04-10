@@ -29,7 +29,7 @@
             <!-- Step 3: Selecting physical location -->
             <StackPanel x:Name="locationPanel" Margin="0,0,0,20" Visibility="Collapsed">
                 <Label Content="Step 3: Selecting physical location" FontWeight="Bold"/>
-                <TextBox x:Name="txtLocationSearch" Text="" Height="30" Margin="0,5,0,10" KeyUp="LocationSearchTextBox_KeyUp"/>
+                <TextBox x:Name="txtLocationSearch" Text="" Height="30" Margin="0,5,0,10" KeyUp="LocationSearchTextBox_KeyUpAsync"/>
                 <ComboBox x:Name="locationDropdown" Width="200" Height="30" Margin="0,0,0,10" Visibility="Collapsed" SelectionChanged="LocationDropdown_SelectionChanged"/>
                 <Button Content="Next" Width="100" Height="40" Click="NextButton3_Click"/>
             </StackPanel>

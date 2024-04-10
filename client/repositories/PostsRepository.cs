@@ -209,11 +209,11 @@ namespace client.repositories
 						Guid post_id = Guid.Parse(reader.GetString(0));
 						Guid owner_user_id = Guid.Parse(reader.GetString(1));
 						String? description = reader.IsDBNull(2) ? null : reader.GetString(2);
-						Guid? commented_post_id = reader.IsDBNull(3) ? (Guid?)null : Guid.Parse(reader.GetString(3));
-						Guid? original_post_id = reader.IsDBNull(4) ? (Guid?)null : Guid.Parse(reader.GetString(4));
-						String? media_path = reader.IsDBNull(5) ? null : reader.GetString(5);
+						Guid commented_post_id = reader.IsDBNull(3) ? Guid.Empty : Guid.Parse(reader.GetString(3));
+						Guid original_post_id = reader.IsDBNull(4) ? Guid.Empty : Guid.Parse(reader.GetString(4));
+						String? media_path = reader.IsDBNull(5) ? "" : reader.GetString(5);
 						int post_type = reader.GetInt16(6);
-						String? location_id = reader.IsDBNull(7) ? null : reader.GetString(7);
+						String? location_id = reader.IsDBNull(7) ? "" : reader.GetString(7);
 						DateTime created_date = reader.GetDateTime(8);
 
 
@@ -282,13 +282,15 @@ namespace client.repositories
 
 						Guid post_id = Guid.Parse(reader.GetString(0));
 						Guid owner_user_id = Guid.Parse(reader.GetString(1));
-						String? description = reader.GetString(2);
-						Guid? commented_post_id = Guid.Parse(reader.GetString(3));
-						Guid? original_post_id = Guid.Parse(reader.GetString(4));
-						String? media_path = reader.GetString(5);
+						String? description = reader.IsDBNull(2) ? null : reader.GetString(2);
+						Guid commented_post_id = reader.IsDBNull(3) ? Guid.Empty : Guid.Parse(reader.GetString(3));
+						Guid original_post_id = reader.IsDBNull(4) ? Guid.Empty : Guid.Parse(reader.GetString(4));
+						String? media_path = reader.IsDBNull(5) ? "" : reader.GetString(5);
 						int post_type = reader.GetInt16(6);
-						String? location_id = reader.GetString(7);
+						String? location_id = reader.IsDBNull(7) ? "" : reader.GetString(7);
 						DateTime created_date = reader.GetDateTime(8);
+
+
 
 						List<Guid> metionedUsers = new List<Guid>();
 						String getMentionedUsers = "SELECT user_id FROM mentions WHERE post_id = @post_id";

@@ -16,8 +16,17 @@ namespace client.services
 
 		}
 
-		public bool addPost(Guid owner_user_id,String? description,List<Guid> mentionedUsers,Guid? commented_post_id,Guid? original_post_id,Media? media, int post_type,String? location_id)
+		public bool addPost(Guid owner_user_id,String? description,List<Guid> mentionedUsers,Guid commented_post_id,Guid original_post_id,String? path, int post_type,String? location_id)
 		{
+			Media media = null;
+			if (post_type == 1)
+			{
+				media = new PhotoMedia(path);
+			}
+			else if (post_type == 2)
+			{
+				media = new VideoMedia(path);
+			}
 			Post newPost = new Post(Guid.NewGuid(),description,owner_user_id,mentionedUsers,commented_post_id,original_post_id,media,post_type,location_id,DateTime.Now);
 
 			if(repository.addPostToDB(newPost))

@@ -42,5 +42,9 @@ namespace client.models
             get { return longitude; }
             set { longitude = value; }
         }
-    }
+		public override string ToString()
+		{
+			return name;
+		}
+	}
 }
