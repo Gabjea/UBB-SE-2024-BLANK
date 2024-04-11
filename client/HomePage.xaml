@@ -115,7 +115,7 @@
                                     <ComboBoxItem>Archive</ComboBoxItem>
                                     <ComboBoxItem>Edit</ComboBoxItem>
                                     <ComboBoxItem>Delete</ComboBoxItem>
-                                    <ComboBoxItem Name="ReportMenuItem1">Report</ComboBoxItem>
+                                    <ComboBoxItem Name="ReportMenuItem">Report</ComboBoxItem>
                                 </ComboBox>
                             </Grid>
                         </Border>
