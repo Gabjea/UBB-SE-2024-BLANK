@@ -58,9 +58,19 @@ namespace client
             reportModal.ShowDialog();
         }
 
-        private void ComboBox_SelectionChanged(object sender, RoutedEventArgs e)
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            ComboBox comboBox = sender as ComboBox;
+            if (comboBox.SelectedItem != null && comboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                if (selectedItem.Name == "ReportMenuItem")
+                {
+                    ReportModalWindow reportModal = new ReportModalWindow();
+                    reportModal.Owner = Window.GetWindow(this);
+                    reportModal.ShowDialog();
+                    comboBox.SelectedIndex = -1;
+                }
+            }
         }
 
         private void shareButton1_Click(object sender, RoutedEventArgs e)
