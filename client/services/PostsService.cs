@@ -100,6 +100,11 @@ namespace client.services
 			return repository.getAllPosts();
 		}
 
+		public Post getPostById(Guid postId)
+		{
+			return repository.getPostById(postId);
+		}
+
 		public List<Post> getAllPostsFromLocation(String location_id) {
 			return repository.getAllPostsFromLocation(location_id);
 		}

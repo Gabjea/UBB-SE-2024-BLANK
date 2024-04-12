@@ -61,12 +61,12 @@ namespace client
 
         private void ShowSavedPosts()
         {
-            contentFrame.Content = new SavedPostsPage();
+            contentFrame.Content = new SavedPostsPage(service);
         }
 
         private void ShowArchivedPosts()
         {
-            contentFrame.Content = new ArchivedPostsPage();
+            contentFrame.Content = new ArchivedPostsPage(service);
         }
     }
 }
