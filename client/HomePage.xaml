@@ -110,11 +110,14 @@
 
 
                                 <!-- Dropdown Menu -->
-                                <ComboBox x:Name="postOptions1" Margin="627,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="19" Height="19" SelectionChanged="ComboBox_SelectionChanged">
-                                    <ComboBoxItem>Save</ComboBoxItem>
-                                    <ComboBoxItem>Archive</ComboBoxItem>
-                                    <ComboBoxItem>Edit</ComboBoxItem>
-                                    <ComboBoxItem>Delete</ComboBoxItem>
+                                <ComboBox
+                                    x:Name="postOptions1" Margin="627,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" 
+                                    Width="19" Height="19" SelectionChanged="ComboBox_SelectionChanged"
+                                    DataContext="{Binding}">
+                                    <ComboBoxItem Name="SaveMenuItem">Save</ComboBoxItem>
+                                    <ComboBoxItem Name="ArchiveMenuItem">Archive</ComboBoxItem>
+                                    <ComboBoxItem Name="EditMenuItem">Edit</ComboBoxItem>
+                                    <ComboBoxItem Name="DeleteMenuItem">Delete</ComboBoxItem>
                                     <ComboBoxItem Name="ReportMenuItem">Report</ComboBoxItem>
                                 </ComboBox>
                             </Grid>

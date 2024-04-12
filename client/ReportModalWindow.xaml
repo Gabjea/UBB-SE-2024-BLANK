@@ -18,7 +18,8 @@
         <!-- Content -->
         <StackPanel Grid.Row="1" Margin="10">
             <TextBlock Text="Enter Reason for Report:"/>
-            <ComboBox HorizontalAlignment="Left" x:Name="ReasonComboBox" Width="150">
+            <ComboBox HorizontalAlignment="Left" x:Name="ReasonComboBox" Width="150"
+                      SelectionChanged="ReasonComboBox_SelectionChanged">
                 <ComboBoxItem Content="Abusive"/>
                 <ComboBoxItem Content="Foul language"/>
                 <ComboBoxItem Content="Racism"/>

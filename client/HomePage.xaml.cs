@@ -53,7 +53,9 @@ namespace client
 
         private void ReportMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ReportModalWindow reportModal = new ReportModalWindow();
+            ComboBox comboBox = sender as ComboBox;
+            Post parentPost = comboBox.DataContext as Post;
+            ReportModalWindow reportModal = new ReportModalWindow(service, parentPost.id);
             reportModal.Owner = Window.GetWindow(this);
             reportModal.ShowDialog();
         }
@@ -65,10 +67,40 @@ namespace client
             {
                 if (selectedItem.Name == "ReportMenuItem")
                 {
-                    ReportModalWindow reportModal = new ReportModalWindow();
+                    Post parentPost = comboBox.DataContext as Post;
+                    ReportModalWindow reportModal = new ReportModalWindow(service, parentPost.id);
                     reportModal.Owner = Window.GetWindow(this);
                     reportModal.ShowDialog();
                     comboBox.SelectedIndex = -1;
+                }
+
+                if (selectedItem.Name == "SaveMenuItem")
+                {
+                    Post parentPost = comboBox.DataContext as Post;
+                    service.PostSavedService.addPostSaved(new PostSaved(Guid.NewGuid(), parentPost.id, Guid.Parse("D6666B72-7E1F-4A8D-9226-38F6DA717A77")));
+                    comboBox.SelectedIndex = -1;
+                }
+
+                if (selectedItem.Name == "ArchiveMenuItem")
+                {
+                    Post parentPost = comboBox.DataContext as Post;
+                    service.PostArchivedService.addPostArchived(new PostArchived(Guid.NewGuid(), parentPost.id));
+                    comboBox.SelectedIndex = -1;
+                }
+
+                if (selectedItem.Name == "DeleteMenuItem")
+                {
+                    Post parentPost = comboBox.DataContext as Post;
+                    service.PostsService.removePost(parentPost.id);
+                    comboBox.SelectedIndex = -1;
+                }
+
+                if (selectedItem.Name == "EditMenuItem")
+                {
+                    Post parentPost = comboBox.DataContext as Post;
+                    EditPostPopup editPostPopup = new EditPostPopup(service, parentPost.id);
+                    editPostPopup.Owner = Window.GetWindow(this);
+                    editPostPopup.ShowDialog();
                 }
             }
         }
